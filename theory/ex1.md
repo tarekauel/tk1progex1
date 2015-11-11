@@ -17,7 +17,9 @@ Die letzte Stufe abstrahiert letztendlich auch die Umgebung des verteilten Syste
 
 ## Task 1.3: Transparency
 Der Begriff beschreibt die Abstrahierung des verteilten Systems gegenüber dem Anwender/Programmierer der mit dem System arbeitet. Ziel ist es, dass das System als ein „Ganzes“ wahrgenommen wird, und nicht als eine Menge von unterschiedlichen Knoten/Systemen.
+
 Beispiele:
+
 1. **Access transparency**  
 Der Zugriff auf eine logische Ressource erfolgt immer gleich – unabhängig davon ob es sich um eine Ressource handelt, die sich physikalisch auf dem gleichen System oder auf einem anderen System befindet (z.B. Network File System (NFS))
 2. **Location transparency**  
@@ -35,4 +37,4 @@ Bei dem Ansatz einer verteilten Datenbank ist zwar die Platform- und Sprachenuna
 3.  **Protocol Approach (for dedicated purposes)**  
 Die Nutzung von Protokollen zur Kommunikation zwischen verteilten Systemen erlaubt komplette Sprach-/ und Plattformunabhängigkeit bei einer guten Performanz. Jedoch sind erfüllen Protokolle nur sehr spezifische Aufgaben (bzw. meistens exakt eine einzige Aufgabe – diese aber dafür sehr gut).
 4.  **Distributed Programming Language Approach**  
-Bei diesem Ansatz wird eine sequenzielle Spache mit einer sprachenspezifische Middleware (meist in Form von eigenen Bibliotheken) verwendet, um die verteilte Programmierung über ein Netzwerk von mehreren Systemen zu erlauben. Für den Compiler existiert kein Unterschied zwischen einem verteilten und einem nicht-verteilten System.
+Bei diesem Ansatz wird eine sequenzielle Spache mit einer sprachenspezifischer Middleware (meist in Form von eigenen Bibliotheken) verwendet, um die verteilte Programmierung über ein Netzwerk von mehreren Systemen zu erlauben. Für den Compiler existiert kein Unterschied zwischen einem verteilten und einem nicht-verteilten System.
