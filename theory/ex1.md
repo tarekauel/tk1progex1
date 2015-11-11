@@ -1,4 +1,6 @@
 # Theory Exercise 1
+
+<p align="right">Tarek Auel, Tiange Hu, Benedikt Christoph Naumann, Markus Schanz</p>
     
 ## Task 1.1: Basic Problems
 1.  In einem verteilten System haben die unterschiedlichen Systeme/Einheiten naturgemäß keinen Zugriff auf den Zustand des Gesamtsystems (zumindest nicht, ohne unannehmbare Zeiteinbußen in Kauf zu nehmen). Das heißt, es gibt keine „globalen“ Variablen bzw. keinen geteilten Speicher. Das erschwert die Synchronisierung in einem verteilten System und kann dazu führen, dass Berechnungen ggf. auf bereits veralteten Daten ausgeführt werden.
