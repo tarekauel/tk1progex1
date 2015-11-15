@@ -11,22 +11,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 class FlyView extends JFrame implements WindowListener {
-  private static final long serialVersionUID = 1L;
   private static final int width = 350;
-  private static final int height = 300;
+  private static final int height = 350;
 
-  private final Client ctrl;
+  private final Client client;
   private final FlyPanel flyPanel;
   private final ScorePanel scorePanel;
+  private final NotificationPanel notificationPanel;
 
-  public FlyView(Client ctrl) {
+  public FlyView(Client client) {
     super("Fly Hunting Game");
 
     Dimension windowSize = new Dimension(width, height);
 
-    this.ctrl = ctrl;
+    this.client = client;
     this.flyPanel = new FlyPanel();
     this.scorePanel = new ScorePanel();
+    this.notificationPanel = new NotificationPanel();
 
     this.setSize(300, 300);
     this.setMinimumSize(windowSize);
@@ -35,6 +36,7 @@ class FlyView extends JFrame implements WindowListener {
     this.getContentPane().setLayout(new BorderLayout());
     this.getContentPane().add(this.flyPanel, BorderLayout.CENTER);
     this.getContentPane().add(this.scorePanel, BorderLayout.EAST);
+    this.getContentPane().add(this.notificationPanel, BorderLayout.SOUTH);
 
     this.setVisible(true);
   }
@@ -45,6 +47,7 @@ class FlyView extends JFrame implements WindowListener {
 
   public void setPlayerScore(String playerName, int score) {
     this.scorePanel.setScore(playerName, score);
+    this.notificationPanel.setHunter(playerName);
   }
 
   @Override
@@ -59,7 +62,7 @@ class FlyView extends JFrame implements WindowListener {
 
   @Override
   public void windowClosed(WindowEvent e) {
-    ctrl.logout();
+    client.logout();
   }
 
   @Override
@@ -82,17 +85,37 @@ class FlyView extends JFrame implements WindowListener {
 
   }
 
+  private class NotificationPanel extends JPanel {
+
+    private NotificationPanel() {
+      super();
+    }
+
+    public void setHunter(String playerName) {
+      this.removeAll();
+      this.add(new JLabel(String.format("%s hunted the fly", playerName)));
+      this.revalidate();
+      this.repaint();
+    }
+  }
+
   private class FlyPanel extends JPanel {
 
     private final JLabel flyLabel;
 
-    public FlyPanel() {
+    private final int panelWidth = 300;
+    private final int panelHeight = 300;
+
+    private final int flyWidth = 53;
+    private final int flyHeight = 53;
+
+    private FlyPanel() {
       super();
-      this.setMaximumSize(new Dimension(300, 300));
+      this.setMaximumSize(new Dimension(panelWidth, panelHeight));
       this.setLayout(null);
       this.setBackground(Color.WHITE);
       this.flyLabel = new JLabel(new ImageIcon(getClass().getResource("/fliege.jpg"), "Fly"));
-      flyLabel.setSize(53, 67);
+      flyLabel.setSize(flyWidth, flyHeight);
       this.add(flyLabel);
 
       flyLabel.addMouseListener(new MouseListener() {
@@ -114,13 +137,13 @@ class FlyView extends JFrame implements WindowListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-          ctrl.onFlyHunted();
+          client.onFlyHunted();
         }
       });
     }
 
     public void setFlyPosition(int x, int y) {
-      flyLabel.setLocation(x, y);
+      flyLabel.setLocation(x % (panelWidth - flyWidth), y % (panelHeight - flyHeight));
     }
 
   }
@@ -129,7 +152,7 @@ class FlyView extends JFrame implements WindowListener {
 
     private final Map<String, Integer> scores = new HashMap<>();
 
-    public ScorePanel() {
+    private ScorePanel() {
       super();
       this.setBackground(Color.WHITE);
       update();
@@ -142,7 +165,7 @@ class FlyView extends JFrame implements WindowListener {
 
     private void update() {
       this.removeAll();
-      this.add(new JLabel(String.format("%10s %5s", "PlayerName", "Score")));
+      this.add(new JLabel(String.format("%10s %5s", "Player Name", "Score")));
       this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
       for (Entry<String, Integer> e : scores.entrySet()) {
         this.add(new JLabel(String.format("%-10s %5d", e.getKey(), e.getValue())));
