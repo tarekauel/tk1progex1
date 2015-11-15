@@ -12,7 +12,7 @@ ob er die Prozedur bereits schon aufgeführt hat oder nicht. Insbesondere kann d
 - Puffer zur Zwischenspeicherung von Prozedurergebnissen:  
 Für den Fall das der Client erneut eine Anfrage für den selben Prozeduraufruf an den Server schickt (z.B. weil die
 letzte Antwort nicht rechtzeitig ankam), muss der Server die Möglichkeit haben das Ergebnis des Prozeduraufrufes an den
-Client zu schicken ohne die Methode noch einmal aufzurufen.
+Client zu schicken ohne die Methode noch einmal auszuführen.
 
 - Client sollte Empfang von Antworten bestätigen (entweder implizit über darunterliegende Protokolle, oder explizit):  
 Damit der Server die Zwischenergebnisse sicher löschen kann muss er sichergehen dass der Client die Antwort empfangen
@@ -22,7 +22,7 @@ ausgegangen werden kann dass es zu keiner erneuten Anfrage mehr kommt.
 ## Task 1.2: Marshalling
 - a) Marshalling beschreibt eine Darstellung von Datenstrukturen (z.B. Instanz einer Klasse)  die unabhängig vom
 Betriebssystem oder der Computerplatform ist. Das ist notwendig um diese Datenstrukturen (z.B. über ein Netzwerk) an
-andere Systeme zu senden, welche dann die Datenstrukturen nutzen kann um das ursprüngliche Objekt (-> Instanz d. Klasse)
+andere Systeme zu senden, welche dann die Datenstrukturen nutzen können um das ursprüngliche Objekt (-> Instanz der Klasse)
 wieder herzustellen.
 
 - b) Bei der CORBA Common Data Representation (CDR) kommt eine "Interface Definition Language" (IDL) zum Einsatz. In
@@ -32,9 +32,10 @@ beschrieben werden.
 Sofern dem Empfänger eines serialisierten Datensatzes also klar ist um welches Interface bzw. um welche Datenstruktur es
 sich handelt, muss der Datensatz selber keine weiteren Informationen darüber mitführen (-> Schnellere Übertragung über
 Netzwerke, Geringerer Aufwand des Parsens beim Empfang). Zudem ist der Empfänger selbst dafür zuständig die Daten in
-eine Darstellung zu überführen die mit der Architektur des Systems in Einklang steht, z.B. Little Endian zu Big Endian.  
+eine Darstellung zu überführen die mit der Architektur des Systems in Einklang steht, z.B. Darstellung im Big Endian
+Format.  
 **Nachteile:**  
-Der Empfänger benötigt die Schnittstellenbeschreibungen in Form eines IDL-Formates. Hat er dieses nicht, so kann er die
+Der Empfänger benötigt die Schnittstellenbeschreibungen in Form eines IDL-Formates. Hat er diese nicht, so kann er die
 empfangenen Daten nicht sinnvoll verwenden.
 
 ## Task 1.3: Request-Reply Protocol
@@ -51,4 +52,4 @@ Genausogut kann es sein dass das ACK zwar losgeschickt wurde, jedoch nie ankam. 
 die letzte Antwort nicht bekommen hat, so wird er ohnehin in Kürze eine neue Anfrage an den Server senden. Bleibt das
 ACK aus weil es den Server nicht erreicht hat, braucht die Antwort auch nicht noch einmal verschickt zu werden. Unter
 diesem Gesichtspunkt macht es also durchaus Sinn auf der erneute versenden einer Antwort zu verzichten. In diesem Fall
-muss das Zwischengespeicherte Ergebnis (im Falle einer At-Most-Once Semantik) nach einem Timeout gelöscht werden.
+muss das gespeicherte Zwischenergebnis (im Falle einer At-Most-Once Semantik) nach einem Timeout gelöscht werden.
