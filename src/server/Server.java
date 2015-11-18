@@ -60,7 +60,12 @@ public class Server extends UnicastRemoteObject implements IGameServer {
   @Override
   public synchronized void logout(IGameClient client) throws RemoteException {
     if (players.containsKey(client)) {
+      String playerName = players.get(client).getName();
       players.remove(client);
+
+      for (IGameClient c : players.keySet()) {
+        c.playerLeft(playerName);
+      }
     }
   }
 

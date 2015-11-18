@@ -31,12 +31,12 @@ class FlyView extends JFrame implements WindowListener {
 
     this.setSize(300, 300);
     this.setMinimumSize(windowSize);
-    this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().setLayout(new BorderLayout());
     this.getContentPane().add(this.flyPanel, BorderLayout.CENTER);
     this.getContentPane().add(this.scorePanel, BorderLayout.EAST);
     this.getContentPane().add(this.notificationPanel, BorderLayout.SOUTH);
 
+    this.addWindowListener(this);
     this.setVisible(true);
   }
 
@@ -53,6 +53,10 @@ class FlyView extends JFrame implements WindowListener {
     this.scorePanel.setScore(playerName, 0);
   }
 
+  public void removePlayer(String playerName) {
+    this.scorePanel.removePlayer(playerName);
+  }
+
   @Override
   public void windowOpened(WindowEvent e) {
 
@@ -60,12 +64,11 @@ class FlyView extends JFrame implements WindowListener {
 
   @Override
   public void windowClosing(WindowEvent e) {
-
+    client.logout();
   }
 
   @Override
   public void windowClosed(WindowEvent e) {
-    client.logout();
   }
 
   @Override
@@ -102,7 +105,7 @@ class FlyView extends JFrame implements WindowListener {
     }
   }
 
-  private class FlyPanel extends JPanel {
+  private class FlyPanel extends JPanel implements MouseListener {
 
     private final JLabel flyLabel;
 
@@ -121,28 +124,28 @@ class FlyView extends JFrame implements WindowListener {
       flyLabel.setSize(flyWidth, flyHeight);
       this.add(flyLabel);
 
-      flyLabel.addMouseListener(new MouseListener() {
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
+      flyLabel.addMouseListener(this);
+    }
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
-          client.onFlyHunted();
-        }
-      });
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+      client.onFlyHunted();
     }
 
     public void setFlyPosition(int x, int y) {
@@ -166,7 +169,13 @@ class FlyView extends JFrame implements WindowListener {
       this.update();
     }
 
-    private void update() {
+    public void removePlayer(String playerName) {
+      System.out.println("Player left: " + playerName);
+      this.scores.remove(playerName);
+      this.update();
+    }
+
+    private synchronized void update() {
       this.removeAll();
       this.add(new JLabel(String.format("%10s %5s", "Player Name", "Score")));
       this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

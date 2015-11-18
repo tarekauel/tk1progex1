@@ -18,12 +18,14 @@
 
     <target name="jar">
         <jar destfile="Server.jar" basedir="out">
+            <exclude name="client/" />
             <manifest>
                 <attribute name="Main-Class" value="server.Server"/>
             </manifest>
         </jar>
         <jar destfile="Client.jar" basedir="out">
             <fileset dir="res" />
+            <exclude name="server/" />
             <manifest>
                 <attribute name="Main-Class" value="client.Client"/>
             </manifest>
