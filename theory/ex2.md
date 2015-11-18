@@ -42,8 +42,8 @@ Einklang steht, z.B. Darstellung im Big Endian Format.
 ***Nachteile:***  
 Der Empfänger benötigt die Schnittstellenbeschreibungen in Form eines IDL-Formates. Hat er diese nicht, so kann er die
 empfangenen Daten nicht sinnvoll verwenden. Eine Versionierung der Datenstrukturen muss selbst gelöst werden, da keine 
-Strukturinformationen vorhanden sind. Gleiches gilt, wenn man Nachrichten archivieren möchte, muss die IDL-Struktur
-manuell dazu behalten werden.
+Strukturinformationen vorhanden sind. Gleiches gilt, wenn man Nachrichten archivieren möchte - denn dann muss die
+entsprechende IDL-Struktur vorgehalten werden.
 
 ## Task 1.3: Request-Reply Protocol
 **Aufgabenteil a)**:  
