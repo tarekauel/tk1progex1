@@ -21,12 +21,14 @@ ausgegangen werden kann dass es zu keiner erneuten Anfrage mehr kommt.
 
 ## Task 1.2: Marshalling
 **Aufgabenteil a)**:
+
 Marshalling beschreibt eine Darstellung von Datenstrukturen (z.B. Instanz einer Klasse) die unabhängig vom
 Betriebssystem oder der Computerplatform ist. Das ist notwendig, um diese Datenstrukturen (z.B. über ein Netzwerk) an
 andere Systeme zu senden, welche dann die Datenstrukturen nutzen können um das ursprüngliche Objekt (-> Instanz der Klasse)
 wieder herzustellen. Beim Marshalling werden neben den Werten der einzelnen Felder auch strukturinformationen gespeichert.
 
-**Aufgabenteil b)**: 
+**Aufgabenteil b)**:
+
 Bei der CORBA Common Data Representation (CDR) kommt eine "Interface Definition Language" (IDL) zum Einsatz. In
 diesem Format können Interfaces (wie z.B. Methodensignaturen) und komplexe Datenstrukturen (wie z.B. Klassen)
 beschrieben werden.  
