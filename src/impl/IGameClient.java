@@ -8,4 +8,6 @@ public interface IGameClient extends Remote {
   void receiveFlyHunted(String playerName, int newPoints) throws RemoteException;
 
   void receiveFlyPosition(int x, int y) throws RemoteException;
+
+  void playerJoined(String playerName) throws RemoteException;
 }

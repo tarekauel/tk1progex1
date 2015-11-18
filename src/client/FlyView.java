@@ -31,7 +31,6 @@ class FlyView extends JFrame implements WindowListener {
 
     this.setSize(300, 300);
     this.setMinimumSize(windowSize);
-    this.setMaximumSize(windowSize);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().setLayout(new BorderLayout());
     this.getContentPane().add(this.flyPanel, BorderLayout.CENTER);
@@ -48,6 +47,10 @@ class FlyView extends JFrame implements WindowListener {
   public void setPlayerScore(String playerName, int score) {
     this.scorePanel.setScore(playerName, score);
     this.notificationPanel.setHunter(playerName);
+  }
+
+  public void addPlayer(String playerName) {
+    this.scorePanel.setScore(playerName, 0);
   }
 
   @Override

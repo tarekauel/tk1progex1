@@ -11,6 +11,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Server extends UnicastRemoteObject implements IGameServer {
@@ -46,8 +47,12 @@ public class Server extends UnicastRemoteObject implements IGameServer {
     if (players.containsKey(client)) {
       return false;
     } else {
-      players.put(client, new Player(playerName));
       client.receiveFlyPosition(this.x, this.y);
+      players.put(client, new Player(playerName));
+      for (Map.Entry<IGameClient, Player> e : players.entrySet()) {
+        client.playerJoined(e.getValue().getName());
+        e.getKey().playerJoined(playerName);
+      }
       return true;
     }
   }

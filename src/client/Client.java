@@ -46,6 +46,11 @@ public class Client extends UnicastRemoteObject implements IGameClient {
     f.setFlyPosition(x, y);
   }
 
+  @Override
+  public void playerJoined(String playerName) throws RemoteException {
+    f.addPlayer(playerName);
+  }
+
   public void logout() {
     try {
       s.logout(this);
