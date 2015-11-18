@@ -1,25 +1,52 @@
 <project>
 
-	<!-- This is only an idea for your script, you can build your own! -->
-	<description>
-		TK1 - Programmieraufgabe 1
-	</description>
+    <!-- This is only an idea for your script, you can build your own! -->
+    <description>
+        TK1 - Programmieraufgabe 1
+    </description>
 
     <target name="clean">
-    	<!--  -->   
+        <delete dir="out"/>
+        <delete file="Server.jar"/>
+        <delete file="Client.jar"/>
     </target>
 
     <target name="compile">
-    	<!--  -->    
+        <mkdir dir="out" />
+        <javac srcdir="src" destdir="out"/>
     </target>
 
     <target name="jar">
-    	<!-- generate jars -->
+        <jar destfile="Server.jar" basedir="out">
+            <exclude name="client/" />
+            <manifest>
+                <attribute name="Main-Class" value="server.Server"/>
+            </manifest>
+        </jar>
+        <jar destfile="Client.jar" basedir="out">
+            <fileset dir="res" />
+            <exclude name="server/" />
+            <manifest>
+                <attribute name="Main-Class" value="client.Client"/>
+            </manifest>
+        </jar>
     </target>
 
     <target name="run">
-    	<parallel>
-    		<!-- start here one server and two clients -->
-    	</parallel>        
+        <parallel>
+            <java jar="Server.jar" fork="true"/>
+            <sequential>
+                <sleep seconds="1"/>
+                <java jar="Client.jar" fork="true">
+                    <arg line="Player1" />
+                </java>
+            </sequential>
+            <sequential>
+                <sleep seconds="1"/>
+                <java jar="Client.jar" fork="true">
+                    <arg line="Player2" />
+                </java>
+            </sequential>
+        </parallel>
     </target>
 </project>
