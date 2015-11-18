@@ -1,9 +1,11 @@
-<project>
+<project default="all">
 
     <!-- This is only an idea for your script, you can build your own! -->
     <description>
         TK1 - Programmieraufgabe 1
     </description>
+
+    <target name="all" depends="clean, compile, jar, run" />  
 
     <target name="clean">
         <delete dir="out"/>
@@ -13,7 +15,7 @@
 
     <target name="compile">
         <mkdir dir="out" />
-        <javac srcdir="src" destdir="out"/>
+        <javac srcdir="src" destdir="out" includeantruntime="false"/>
     </target>
 
     <target name="jar">
