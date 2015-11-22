@@ -18,12 +18,11 @@ public class SOAPClient {
 
     int input;
     while(true) {
-      input = -1;
       printOption();
-      while (input < 0 || input > 9) {
+      do {
         input = Integer.parseInt(getStringInput());
-        System.err.println("No input between 0 and 9" + input);
-      }
+        System.out.println("Input is " + input);
+      } while (input < 0 || input > 9);
       perform(input);
     }
   }

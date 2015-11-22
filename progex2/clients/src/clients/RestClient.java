@@ -19,11 +19,11 @@ public class RestClient {
 
     int input;
     while(true) {
-      input = -1;
       printOption();
-      while (input < 0 || input > 9) {
+      do {
         input = Integer.parseInt(getStringInput());
-      }
+        System.out.println("Input is " + input);
+      } while (input < 0 || input > 9);
       perform(input);
     }
   }
@@ -72,6 +72,7 @@ public class RestClient {
       }
 
       default:
+        System.err.println("No action for: " + choice);
     }
   }
 
