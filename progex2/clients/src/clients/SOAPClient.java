@@ -3,7 +3,6 @@ package clients;
 import gen.WebShopService;
 import gen.WebShopService_Service;
 
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.UUID;
