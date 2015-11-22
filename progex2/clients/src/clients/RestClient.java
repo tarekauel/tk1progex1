@@ -23,7 +23,6 @@ public class RestClient {
       printOption();
       do {
         input = Integer.parseInt(getStringInput());
-        System.out.println("Input is " + input);
       } while (input < 0 || input > 9);
       perform(input);
     }
