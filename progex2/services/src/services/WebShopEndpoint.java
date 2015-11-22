@@ -1,6 +1,5 @@
 package services;
 
-import com.sun.glass.ui.SystemClipboard;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import services.model.Catalog;
 import services.model.Item;
