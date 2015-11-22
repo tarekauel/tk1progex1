@@ -21,7 +21,7 @@ public class WebShopEndpoint {
       @Override
       public void run() {
         try {
-          HttpServerFactory.create("http://localhost:8080/");
+          HttpServerFactory.create("http://localhost:8080/").start();
           System.out.println("Started REST server");
         } catch (IOException e) {
           e.printStackTrace();
