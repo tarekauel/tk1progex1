@@ -1,0 +1,58 @@
+<project default="all">
+
+    <!-- This is only an idea for your script, you can build your own! -->
+    <description>
+        TK1 - Programmieraufgabe 2 - Clients
+    </description>
+
+    <target name="all" depends="clean, compile, jar, run" />
+
+    <target name="clean">
+        <delete dir="src/gen" />
+        <delete dir="out"/>
+        <delete file="SoapClient.jar"/>
+        <delete file="RestClient.jar"/>
+    </target>
+
+    <target name="generate-client" >
+        <exec executable="${java.home}/../bin/wsimport">
+            <arg line=" -d src -keep -p gen http://localhost:8090/?wsdl"/>
+        </exec>
+    </target>
+
+    <target name="compile" depends="generate-client">
+        <mkdir dir="out" />
+        <javac srcdir="src" destdir="out" includeantruntime="false">
+            <classpath>
+                <pathelement path="${classpath}" />
+                <fileset dir="lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jar">
+        <jar destfile="RestClient.jar" basedir="out">
+            <zipgroupfileset dir="lib" includes="**/*.jar"/>
+            <manifest>
+                <attribute name="Main-Class" value="clients.RestClient"/>
+            </manifest>
+        </jar>
+        <jar destfile="SoapClient.jar" basedir="out">
+            <zipgroupfileset dir="lib" includes="**/*.jar"/>
+            <manifest>
+                <attribute name="Main-Class" value="clients.SOAPClient"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run">
+        <parallel>
+            <exec executable="xterm">
+                <arg value="-e" />
+                <arg value="java -jar RestClient.jar" />
+            </exec>
+        </parallel>
+    </target>
+</project>
