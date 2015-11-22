@@ -22,6 +22,7 @@ public class SOAPClient {
       printOption();
       while (input < 0 || input > 9) {
         input = Integer.parseInt(getStringInput());
+        System.err.println("No input between 0 and 9" + input);
       }
       perform(input);
     }
@@ -63,6 +64,7 @@ public class SOAPClient {
       }
 
       default:
+        System.err.println("No action for: " + choice);
     }
   }
 
