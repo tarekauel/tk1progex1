@@ -49,9 +49,13 @@
 
     <target name="run">
         <parallel>
-            <exec executable="xterm">
+            <exec executable="lxterminal">
                 <arg value="-e" />
                 <arg value="java -jar RestClient.jar" />
+            </exec>
+            <exec executable="lxterminal">
+                <arg value="-e" />
+                <arg value="java -jar SoapClient.jar" />
             </exec>
         </parallel>
     </target>
