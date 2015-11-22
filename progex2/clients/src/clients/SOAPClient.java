@@ -14,7 +14,7 @@ public class SOAPClient {
   private static String uuid = UUID.randomUUID().toString();
 
   public static void main(String[] args) throws IOException {
-    System.out.printf("SOAP-Client");
+    System.out.printf("SOAP-Client\n");
     System.out.printf("Welcome, your UUID is %s\n", uuid);
 
     int input;

@@ -15,7 +15,7 @@ public class RestClient {
   private static String uuid = UUID.randomUUID().toString();
 
   public static void main(String[] args) throws IOException {
-    System.out.printf("REST-Client");
+    System.out.printf("REST-Client\n");
     System.out.printf("Welcome, your UUID is %s\n", uuid);
 
     int input;
