@@ -1,0 +1,41 @@
+<project default="all">
+
+    <!-- This is only an idea for your script, you can build your own! -->
+    <description>
+        TK1 - Programmieraufgabe 2 - Services
+    </description>
+
+    <target name="all" depends="clean, compile, jar, run" />
+
+    <target name="clean">
+        <delete dir="out"/>
+        <delete file="Services.jar"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="out" />
+        <javac srcdir="src" destdir="out" includeantruntime="false">
+            <classpath>
+                <pathelement path="${classpath}" />
+                <fileset dir="lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jar">
+        <jar destfile="Services.jar" basedir="out">
+            <zipgroupfileset dir="lib" includes="**/*.jar"/>
+            <manifest>
+                <attribute name="Main-Class" value="services.WebShopEndpoint"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run">
+        <parallel>
+            <java jar="Services.jar" fork="true"/>
+        </parallel>
+    </target>
+</project>
