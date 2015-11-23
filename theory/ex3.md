@@ -29,13 +29,13 @@ Registry neu vergeben werden, allerdings bleiben bestehende Verbindungen davon u
 lokale Ressource kann deutlich schneller sein. Außerdem sind keine Mechanismen implementiert, die 
 eine Rekonfiguration zur Performancesteigerung erlauben.
 * :white_check_mark: Scaling transparency ist gegeben, allerdings nur für vertikale
-Skalierung, nciht für horizontales skalieren.
+Skalierung, nicht für horizontales skalieren.
 
 ## Task 1.3: RMI - single-threaded vs multi-threaded
 a)
 One request:
 <p style="font-family: Consolas">
-| ----- Client -----|-- N --|------------- Server --------------|-- N --|--- Client ---<br />
+| -------- Client --------|--- N ---|----------------- Server ------------------|---- N ----|------ Client -----<br />
 [4ms + 1ms + 0.3ms] + [4ms] + [0.3ms + 1ms + 9ms + 1ms + 0.3ms] + [4ms] + [0.3ms + 1ms]
 </p>
 Steps:
