@@ -34,11 +34,11 @@ Skalierung, nciht für horizontales skalieren.
 ## Task 1.3: RMI - single-threaded vs multi-threaded
 a)
 One request:
-
+<p style="font-family: Consolas">
 | ----- Client -----|-- N --|------------- Server --------------|-- N --|--- Client ---
  
 [4ms + 1ms + 0.3ms] + [4ms] + [0.3ms + 1ms + 9ms + 1ms + 0.3ms] + [4ms] + [0.3ms + 1ms]
-
+</p>
 Steps:
 - calculate arguments
 - marshalling
@@ -53,23 +53,25 @@ Steps:
 - receive
 - marshalling
 
+
 - Client until send (incl.): 5.3ms
 - Network 4ms
 - Server processing time: 11.6ms
 - Network 4ms 
 - Client receiving result: 1.3ms
 
+
 Second starts at t=5.3ms
--> at server at: 5.3ms + 5.3ms + 4ms = 14.6
--> server busy until 5.3ms + 4ms + 11.6ms = 20.9ms
--> second request has to wait 6.3ms
--> 1. request finished at: 5.3ms + 4ms + 11.6ms + 4ms + 1.3ms = 26.2
--> 2. request finished at: 5.3ms + 6.3ms + 26.2 = 37.8
+- at server at: 5.3ms + 5.3ms + 4ms = 14.6
+- server busy until 5.3ms + 4ms + 11.6ms = 20.9ms
+- second request has to wait 6.3ms
+- 1. request finished at: 5.3ms + 4ms + 11.6ms + 4ms + 1.3ms = 26.2
+- 2. request finished at: 5.3ms + 6.3ms + 26.2 = 37.8
 
 b)
--> both requests sent at 5.3ms
--> both requests received at 9.3ms
--> server processes first request until 20.9ms
--> network 1st request + client gets first result
--> server processes second request until 32.4ms
--> network 2nd request 4ms, client 1.3ms --> 32.4ms + 4ms + 1.3ms = 37.7
+- both requests sent at 5.3ms
+- both requests received at 9.3ms
+- server processes first request until 20.9ms
+- network 1st request + client gets first result
+- server processes second request until 32.4ms
+- network 2nd request 4ms, client 1.3ms --> 32.4ms + 4ms + 1.3ms = 37.7
