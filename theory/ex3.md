@@ -35,8 +35,7 @@ Skalierung, nciht für horizontales skalieren.
 a)
 One request:
 <p style="font-family: Consolas">
-| ----- Client -----|-- N --|------------- Server --------------|-- N --|--- Client ---
- 
+| ----- Client -----|-- N --|------------- Server --------------|-- N --|--- Client ---<br />
 [4ms + 1ms + 0.3ms] + [4ms] + [0.3ms + 1ms + 9ms + 1ms + 0.3ms] + [4ms] + [0.3ms + 1ms]
 </p>
 Steps:
@@ -53,7 +52,7 @@ Steps:
 - receive
 - marshalling
 
-
+Grouped: 
 - Client until send (incl.): 5.3ms
 - Network 4ms
 - Server processing time: 11.6ms
@@ -61,7 +60,7 @@ Steps:
 - Client receiving result: 1.3ms
 
 
-Second starts at t=5.3ms
+Second requests starts at t=5.3ms
 - at server at: 5.3ms + 5.3ms + 4ms = 14.6
 - server busy until 5.3ms + 4ms + 11.6ms = 20.9ms
 - second request has to wait 6.3ms
