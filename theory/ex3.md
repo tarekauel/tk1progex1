@@ -72,5 +72,5 @@ b)
 - both requests received at 9.3ms
 - server processes first request until 20.9ms
 - network 1st request + client gets first result
-- server processes second request until 32.4ms
-- network 2nd request 4ms, client 1.3ms --> 32.4ms + 4ms + 1.3ms = 37.7
+- server processes second request starting at 20.9 until 32.5ms
+- network 2nd request 4ms, client 1.3ms --> 32.5ms + 4ms + 1.3ms = 37.8
