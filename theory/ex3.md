@@ -37,10 +37,10 @@ Infrastruktur genutzt werden können.
 ## Task 1.3: RMI - single-threaded vs multi-threaded
 a)
 ![Single Thread](ex3_singlethread.png "Single Threaded")
-In total: 45.2ms
+In total: 51.4ms
 
 b)
 ![Multi Thread](ex3_twothreads.png "Multi Threaded")
-In total: 31.6ms
+In total: 37.3ms
 
-Edit charts @[JSFiddle](http://jsfiddle.net/pht5jsb1/2/)
+Edit charts @[JSFiddle](http://jsfiddle.net/pht5jsb1/4/)
