@@ -31,7 +31,7 @@ Infrastruktur genutzt werden können.
 a)
 One request:
 <p style="font-family: Consolas">
-| ---------- Client ----------|--- N ---|------------------- Server --------------------|--- N ---|---- Client ---<br />
+| --------- Client ---------|--- N ---|------------------ Server -------------------|--- N ---|---- Client ---<br />
 [4ms + 0.5ms + 0.3ms] + [4ms] + [0.3ms + 0.5ms + 9ms + 0.5ms + 0.3ms] + [4ms] + [0.3ms + 0.5ms]
 </p>
 Steps:
