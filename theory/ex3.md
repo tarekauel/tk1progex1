@@ -58,6 +58,7 @@ Grouped:
 
 Two finish one request: 24.2ms
 Single-threaded and synchronous, requests starts, if first result is received: 24.2ms * 2 = 48.4ms
+
 ![Single Thread](ex3_singlethread.png "Single Threaded")
 
 In total: 48.4ms
@@ -74,4 +75,3 @@ t=34.8ms
 ![Multi Thread](ex3_twothreads.png "Multi Threaded")
 
 In total 34.8ms
-Edit charts @[JSFiddle](http://jsfiddle.net/pht5jsb1/4/)
