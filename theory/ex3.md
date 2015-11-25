@@ -29,12 +29,7 @@ Infrastruktur genutzt werden können.
 
 ## Task 1.3: RMI - single-threaded vs multi-threaded
 a)
-One request:
-<p style="font-family: Consolas">
-| --------- Client ---------|--- N ---|------------------ Server ---------------------|--- N ---|---- Client ---<br />
-[4ms + 0.5ms + 0.3ms] + [4ms] + [0.3ms + 0.5ms + 9ms + 0.5ms + 0.3ms] + [4ms] + [0.3ms + 0.5ms]
-</p>
-Steps:
+Steps for a single request:
 - 4ms: calculate arguments
 - 0.5ms: marshalling
 - 0.3ms: send
@@ -55,22 +50,21 @@ Grouped:
 - Network 4ms 
 - Client receiving result: 0.8ms
 
-
-Two finish one request: 24.2ms
-Single-threaded and synchronous, requests starts, if first result is received: 24.2ms * 2 = 48.4ms
+To finish one request: 24.2ms.
+The client is single-threaded and synchronous, so the second requests starts when the
+first result is received which leads to a total execution time of 24.2ms * 2 = 48.4ms
 
 ![Single Thread](ex3_singlethread.png "Single Threaded")
 
 In total: 48.4ms
 
 b)
-- both requests sent at t=4.8ms
-- both requests received at server at t=8.8ms
-- server processes first request until t=19.4ms
+- First request send on network at t=4.8ms, Second request send on network at t=9,6ms
+- Request one is received at t=8.8ms, Second request is received at t=13,6ms
+- server processes first request until t=19.4ms, and starts immediately to process the second request
 - network 1st request + client gets first result, finished at 24.2 ms (not interesting)
 - server processes second request starting at t=19.4 until t=30ms
-- network 2nd request 4ms until t=34ms, client receives and demarshalleing 0.8ms finished at 
-t=34.8ms
+- network 2nd request 4ms until t=34ms, client receives and demarshalleing 0.8ms finished at t=34.8ms
 
 ![Multi Thread](ex3_twothreads.png "Multi Threaded")
 
