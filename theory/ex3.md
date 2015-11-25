@@ -51,25 +51,25 @@ Steps:
 Grouped: 
 - Client until send (incl.): 4.8ms
 - Network 4ms
-- Server processing time: 11.1ms
+- Server processing time: 10.6ms
 - Network 4ms 
 - Client receiving result: 0.8ms
 
 
-Two finish one request: 24.7ms
-Single-threaded and synchronous, requests starts, if first result is received: 24.7ms * 2 = 49.4ms
+Two finish one request: 24.2ms
+Single-threaded and synchronous, requests starts, if first result is received: 24.2ms * 2 = 48.4ms
 ![Single Thread](ex3_singlethread.png "Single Threaded")
-In total: 49.4ms
+In total: 48.4ms
 
 b)
 - both requests sent at t=4.8ms
 - both requests received at server at t=8.8ms
-- server processes first request until t=19.9ms
-- network 1st request + client gets first result, finished at 24.7 ms (not interesting)
-- server processes second request starting at t=19.9 until t=31ms
-- network 2nd request 4ms until t=35ms, client receives and demarshalleing 0.8ms finished at 
-t=35.8ms
+- server processes first request until t=19.4ms
+- network 1st request + client gets first result, finished at 24.2 ms (not interesting)
+- server processes second request starting at t=19.4 until t=30ms
+- network 2nd request 4ms until t=34ms, client receives and demarshalleing 0.8ms finished at 
+t=34.8ms
 
 ![Multi Thread](ex3_twothreads.png "Multi Threaded")
-In total 35.8ms
+In total 34.8ms
 Edit charts @[JSFiddle](http://jsfiddle.net/pht5jsb1/4/)
