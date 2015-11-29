@@ -1,86 +1,104 @@
 package clients;
 
-import gen.WebShopService;
-import gen.WebShopService_Service;
+import soap.stub.Product;
+import soap.stub.ShoppingCart;
+import soap.stub.Stock;
+import soap.stub.StockItem;
+import soap.stub.WebShopService;
+import soap.stub.WebShopService_Service;
 
-import java.io.IOException;
-import java.util.Scanner;
+import views.ClientLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class SOAPClient {
+import models.CartItem;
+import models.CartTableModel;
 
+public class SOAPClient implements ClientController {
   private static WebShopService wsr = new WebShopService_Service().getWebShopServicePort();
-
-  private static String uuid = UUID.randomUUID().toString();
-
-  public static void main(String[] args) throws IOException {
-    System.out.printf("SOAP-Client\n");
-    System.out.printf("Welcome, your UUID is %s\n", uuid);
-
-    int input;
-    while(true) {
-      printOption();
-      do {
-        input = Integer.parseInt(getStringInput());
-      } while (input < 0 || input > 9);
-      perform(input);
-    }
+  
+  private String uuid;
+  private ClientLayout window;
+  
+  public static void main(String[] args) {
+	  new SOAPClient();
+  }
+  
+  public SOAPClient() {
+	this.uuid = UUID.randomUUID().toString();
+	this.window = new ClientLayout(this, "SOAP Client");
+	
+	refreshProductList();
+    window.setVisible(true);
+  }
+  
+  private void refreshProductList() {
+	  Stock stock = wsr.getStock();
+	  
+	  window.removeAllProducts();
+	  for (Stock.Items.Entry stockEntry : stock.getItems().getEntry()) {
+		  window.addProduct(new ComboBoxStockItem(stockEntry.getValue()));
+	  }
+  }
+  
+  private class ComboBoxStockItem implements ComboBoxObject {
+	  StockItem i;
+	  
+	  public ComboBoxStockItem(StockItem i) {
+		this.i = i;
+	}
+	  
+	  @Override
+	public Object getObject() {
+		return i;
+	}
+	  
+	  @Override
+	public String toString() {
+		return String.format("%s (Price: %.2f Euro, In stock: %d)",
+				  i.getProduct().getName(),
+				  i.getProduct().getPrice(),
+				  i.getQuantity());
+	}
+  }
+  
+  private void updateCartItems(ShoppingCart shoppingCart) {
+	  List<CartItem> cartItems = new ArrayList<CartItem>();
+	  for (ShoppingCart.Items.Entry e : shoppingCart.getItems().getEntry()) {
+		  cartItems.add(new CartItem(e.getKey().getId(), e.getKey().getName(), e.getKey().getPrice(), e.getValue()));
+	  }
+	  
+	  CartTableModel ctm = new CartTableModel(cartItems.toArray(new CartItem[0]));
+	  window.setCartModel(ctm);
+  }
+  
+  @Override
+  public void onAddProduct(Object o, int quantity) {
+	  if (quantity <= 0) {
+		  window.setInfoLabel("The quantity must not be greater than 0!");
+		  return;
+	  }
+	  
+	  StockItem i = (StockItem) o;
+	  Product p = i.getProduct();
+	  ShoppingCart shoppingCart = wsr.putProduct(uuid, p.getId(), quantity);
+	  
+	  this.updateCartItems(shoppingCart);
+	  window.setInfoLabel(String.format("Added product to cart: %s (x%d)", p.getName(), quantity));
+  }
+  
+  @Override
+  public void onCheckout() {
+	  window.setInfoLabel(wsr.checkout(uuid));
+	  ShoppingCart shoppingCart = wsr.getShoppingCart(uuid);
+	  updateCartItems(shoppingCart);
+	  refreshProductList();
   }
 
-  private static void perform(int choice) throws IOException {
-    switch (choice) {
-      case 0: {
-        System.out.println(wsr.getCatalog());
-        break;
-      }
-      case 1: {
-        System.out.printf("product name?\n");
-        String name = getStringInput();
-        System.out.println(wsr.getCatalogItem(name));
-        break;
-      }
-      case 2: {
-        System.out.printf("product name?\n");
-        String name = getStringInput();
-        System.out.printf("Quantity?\n");
-        int qty = Integer.parseInt(getStringInput());
-        System.out.println(wsr.putProduct(uuid, name, qty));
-        break;
-      }
-      case 3: {
-        System.out.printf("product name?\n");
-        String name = getStringInput();
-        System.out.println(wsr.deleteProduct(uuid, name));
-        break;
-      }
-      case 4: {
-        System.out.println(wsr.getShoppingCart(uuid));
-        break;
-      }
-      case 5: {
-        System.out.println(wsr.checkout(uuid));
-        break;
-      }
-
-      default:
-        System.err.println("No action for: " + choice);
-    }
-  }
-
-  private static String getStringInput() {
-    Scanner sc = new Scanner(System.in);
-    return sc.nextLine();
-  }
-
-  private static void printOption() {
-    System.out.printf(
-        "Please choose an option:\n" +
-            "0: Show catalog\n" +
-            "1: Show item of catalog\n" +
-            "2: Put item into shopping cart\n" +
-            "3: Remove item from shopping cart\n" +
-            "4: Show shopping cart\n" +
-            "5: Checkout:\n");
-
+  @Override
+  public String getUUID() {
+	return uuid;
   }
 }

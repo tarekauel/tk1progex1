@@ -1,7 +1,5 @@
 package services.rest;
 
-import services.model.Bill;
-import services.model.Catalog;
 import services.model.Product;
 import services.model.ShoppingCart;
 
@@ -13,36 +11,32 @@ public class ShoppingCartResource {
 
   @POST
   @Path("checkout/{uuid}")
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.APPLICATION_JSON)
   public String checkout(@PathParam("uuid") String uuid) {
-    if (Catalog.get().purchase(ShoppingCart.get(uuid))) {
-      return new Bill(ShoppingCart.get(uuid)).toString();
-    } else {
-      return Bill.NOT_AVAILABLE.toString();
-    }
+	  return ShoppingCart.get(uuid).checkout();
   }
 
   @GET
   @Path("{uuid}")
-  @Produces(MediaType.TEXT_PLAIN)
-  public String getShoppingCart(@PathParam("uuid") String uuid) {
-    return ShoppingCart.get(uuid).toString();
+  @Produces(MediaType.APPLICATION_JSON)
+  public ShoppingCart getShoppingCart(@PathParam("uuid") String uuid) {
+    return ShoppingCart.get(uuid);
   }
 
   @PUT
-  @Path("{uuid}/{product}")
-  @Produces(MediaType.TEXT_PLAIN)
-  public String putProduct(@PathParam("uuid") String uuid,
-                           @PathParam("product") String product,
-                           @DefaultValue("1") @QueryParam("qty") String qty     ) {
-    return ShoppingCart.get(uuid).set(Product.getProduct(product), Integer.parseInt(qty)).toString();
+  @Path("{uuid}/{productId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public ShoppingCart putProduct(@PathParam("uuid") String uuid,
+                           @PathParam("productId") int productId,
+                           @DefaultValue("1") @QueryParam("qty") String qty) {
+    return ShoppingCart.get(uuid).set(Product.getProduct(productId), Integer.parseInt(qty));
   }
 
   @DELETE
-  @Path("{uuid}/{product}")
-  @Produces(MediaType.TEXT_PLAIN)
-  public String removeProduct(@PathParam("uuid") String uuid,
-                                 @PathParam("product") String product) {
-    return ShoppingCart.get(uuid).set(Product.getProduct(product), 0).toString();
+  @Path("{uuid}/{productId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public ShoppingCart removeProduct(@PathParam("uuid") String uuid,
+                                 @PathParam("productId") int productId) {
+    return ShoppingCart.get(uuid).set(Product.getProduct(productId), 0);
   }
 }

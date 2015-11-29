@@ -2,26 +2,35 @@ package services.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.HashMap;
-import java.util.Map;
 
 @XmlRootElement
 public class Product {
+  private static Product[] list = {
+		  new Product(0, "Lampe", 19.99),
+		  new Product(1, "Notebook", 199.99),
+		  new Product(2, "Auto", 20000.00)
+  };
 
-  private static Map<String, Product> list = new HashMap<>();
-
-  public static Product getProduct(String name) {
-    return (list.containsKey(name)) ? list.get(name) : new Product(name);
+  public static Product getProduct(int id) {
+	  return id < list.length ? list[id] : null;
   }
-
+  
+  @XmlElement
+  private int id;
   @XmlElement
   private String name;
-
-  public Product() {};
-
-  private Product(String name) {
+  @XmlElement
+  private double price;
+  
+  private Product() {}
+  private Product(int id, String name, double price) {
+	this.id = id;
     this.name = name;
-    list.put(name, this);
+    this.price = price;
+  }
+  
+  public int getId() {
+	  return id;
   }
 
   public String getName() {
@@ -30,6 +39,6 @@ public class Product {
 
   @Override
   public String toString() {
-    return "Product " + name;
+    return String.format("%s (%.2f €)", name, price);
   }
 }
