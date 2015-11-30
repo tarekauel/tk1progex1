@@ -8,7 +8,7 @@
     <target name="all" depends="clean, compile, jar, run" />
 
     <target name="clean">
-        <delete dir="src/gen" />
+        <delete dir="src/soap/stub" />
         <delete dir="out"/>
         <delete file="SoapClient.jar"/>
         <delete file="RestClient.jar"/>
@@ -16,7 +16,7 @@
 
     <target name="generate-client" >
         <exec executable="${java.home}/../bin/wsimport">
-            <arg line=" -d src -keep -p gen http://localhost:8090/?wsdl"/>
+            <arg line=" -encoding UTF-8 -d src -keep -p soap.stub http://localhost:8090/?wsdl"/>
         </exec>
     </target>
 

@@ -4,26 +4,20 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Item {
+public class StockItem {
 
   @XmlElement private Product product;
-  @XmlElement private double price;
   @XmlElement private int quantity;
 
-  public Item() {}
+  public StockItem() {}
 
-  public Item(Product product, double price, int quantity) {
+  public StockItem(Product product, int quantity) {
     this.product = product;
-    this.price = price;
     this.quantity = quantity;
   }
 
   public Product getProduct() {
     return product;
-  }
-
-  public double getPrice() {
-    return price;
   }
 
   public int getQuantity() {
@@ -32,12 +26,5 @@ public class Item {
 
   public void reduce(int q) {
     quantity -= q;
-  }
-
-  @Override
-  public String toString() {
-    return
-        String.format("%5s %10s %10s\n", "Product", "Price", "Qty.") +
-        String.format("%5s %4f %10d", product.getName(), getPrice(), getQuantity());
   }
 }

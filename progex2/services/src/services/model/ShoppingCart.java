@@ -15,11 +15,9 @@ public class ShoppingCart {
   }
 
   @XmlElement private String uuid;
-
   @XmlElement private final Map<Product, Integer> items = new HashMap<>();
 
-  public ShoppingCart() {};
-
+  private ShoppingCart() {}
   private ShoppingCart(String uuid) {
     this.uuid = uuid;
     scs.put(uuid, this);
@@ -29,21 +27,35 @@ public class ShoppingCart {
     if (quantity == 0) {
       items.remove(p);
     } else {
-      items.put(p, quantity);
+    	int q = items.containsKey(p) ? items.get(p) : 0;
+    	items.put(p, q + quantity);
     }
+    
     return this;
   }
 
   public Map<Product, Integer> get() {
     return items;
   }
-
-  @Override
-  public String toString() {
-    String out = String.format("Shopping cart:\n%10s %8s\n", "Product", "Quantity");
-    for (Map.Entry<Product, Integer> e : items.entrySet()) {
-      out += String.format("%10s %8d\n", e.getKey().getName(), e.getValue());
-    }
-    return out;
+  
+  public synchronized String checkout() {
+	  Stock stock = Stock.get();
+	  
+	  for (Map.Entry<Product, Integer> e : items.entrySet()) {
+		  int instock = stock.get(e.getKey().getId()).getQuantity();
+		  
+		  if (instock == 0) {
+			  return String.format("Out of stock: %s", e.getKey().getName());
+		  } else if (instock < e.getValue()) {
+			  return String.format("You cannot purchase more than %d of %s", instock, e.getKey().getName());
+		  }
+	  }
+	  
+	  for (Map.Entry<Product, Integer> e : items.entrySet()) {
+		  stock.get(e.getKey().getId()).reduce(e.getValue());
+	  }
+	  
+	  items.clear();
+	  return "";
   }
 }
