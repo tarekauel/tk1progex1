@@ -1,20 +1,20 @@
 package services.soap;
 
-import services.model.Stock;
-import services.model.StockItem;
 import services.model.Product;
 import services.model.ShoppingCart;
+import services.model.Stock;
+import services.model.StockItem;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-@WebService(name="WebShopService")
+@WebService(name = "WebShopService")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public class WebShop {
   @WebMethod
   public Stock getStock() {
-	  return Stock.get();
+    return Stock.get();
   }
 
   @WebMethod
@@ -24,18 +24,18 @@ public class WebShop {
 
   @WebMethod
   public String checkout(String uuid) {
-	  String errorMsg = ShoppingCart.get(uuid).checkout();
-	  
-	  if (errorMsg.isEmpty()) {
-		  return "Checkout successful!";
-	  } else {
-		  return errorMsg;
-	  }
+    String errorMsg = ShoppingCart.get(uuid).checkout();
+
+    if (errorMsg.isEmpty()) {
+      return "Checkout successful!";
+    } else {
+      return errorMsg;
+    }
   }
-  
+
   @WebMethod
   public Product getProduct(int productId) {
-	  return Product.getProduct(productId);
+    return Product.getProduct(productId);
   }
 
   @WebMethod
@@ -45,10 +45,10 @@ public class WebShop {
 
   @WebMethod
   public ShoppingCart putProduct(String uuid, int productId, int qty) {
-	  ShoppingCart sc = ShoppingCart.get(uuid);
-	  Product p = Product.getProduct(productId);
-	  
-	  return sc.set(p, qty);
+    ShoppingCart sc = ShoppingCart.get(uuid);
+    Product p = Product.getProduct(productId);
+
+    return sc.set(p, qty);
   }
 
   @WebMethod

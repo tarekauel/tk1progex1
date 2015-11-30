@@ -2,7 +2,8 @@ package clients;
 
 public interface ComboBoxObject {
 
-	Object getObject();
-	@Override
-	String toString();
+  Object getObject();
+
+  @Override
+  String toString();
 }

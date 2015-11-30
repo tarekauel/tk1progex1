@@ -16,7 +16,7 @@ public class ShoppingCartResource {
   @Path("checkout/{uuid}")
   @Produces(MediaType.APPLICATION_JSON)
   public String checkout(@PathParam("uuid") String uuid) {
-	  return ShoppingCart.get(uuid).checkout();
+    return ShoppingCart.get(uuid).checkout();
   }
 
   @GET
@@ -39,7 +39,7 @@ public class ShoppingCartResource {
   @Path("{uuid}/{productId}")
   @Produces(MediaType.APPLICATION_JSON)
   public String removeProduct(@PathParam("uuid") String uuid,
-                                 @PathParam("productId") int productId) {
+                              @PathParam("productId") int productId) {
     return gson.toJson(ShoppingCart.get(uuid).set(Product.getProduct(productId), 0));
   }
 }

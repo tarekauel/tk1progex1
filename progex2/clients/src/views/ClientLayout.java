@@ -1,21 +1,12 @@
 package views;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import clients.Client;
+
+import javax.swing.*;
+import javax.swing.table.TableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.table.TableModel;
-
-import clients.Client;
 
 public class ClientLayout extends JFrame {
   private static final long serialVersionUID = 1L;
@@ -26,6 +17,7 @@ public class ClientLayout extends JFrame {
   private JComboBox<ComboBoxObject> productSelect;
   private JSpinner quantitySpinner;
   private JButton addProductBtn;
+  private JButton refreshBtn;
   private JButton checkoutBtn;
   private JTable cart;
   private JLabel infoLabel;
@@ -34,34 +26,20 @@ public class ClientLayout extends JFrame {
     this.ctrl = ctrl;
     this.windowTitle = title;
     this.UUID = new JLabel(ctrl.getUuid());
-    this.productSelect = new JComboBox<ComboBoxObject>(new ComboBoxObject[0]);
+    this.productSelect = new JComboBox<>(new ComboBoxObject[0]);
     this.quantitySpinner = new JSpinner();
     this.quantitySpinner.setValue(1);
     this.addProductBtn = new JButton("Add to cart");
+    this.refreshBtn = new JButton("Refresh");
     this.checkoutBtn = new JButton("Checkout");
     this.cart = new JTable();
     this.infoLabel = new JLabel();
 
     this.addProductBtn.addActionListener(new AddProductActionListener());
     this.checkoutBtn.addActionListener(new CheckoutActionListener());
+    this.refreshBtn.addActionListener(new RefreshActionListener());
 
     initGui();
-  }
-
-  private class AddProductActionListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      ctrl.onAddProduct(
-          ((ComboBoxObject) productSelect.getSelectedItem()).getObject(),
-          (Integer) quantitySpinner.getValue());
-    }
-  }
-
-  private class CheckoutActionListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      ctrl.onCheckout();
-    }
   }
 
   private void initGui() {
@@ -104,21 +82,26 @@ public class ClientLayout extends JFrame {
     c.gridx = 1;
     this.add(this.addProductBtn, c);
 
-    // Cart summary
+    // Add to cart
     c.gridy = 4;
+    c.gridx = 1;
+    this.add(this.refreshBtn, c);
+
+    // Cart summary
+    c.gridy = 5;
     c.gridx = 0;
     c.gridwidth = 2;
     this.add(new JLabel("Your shopping cart:"), c);
 
-    c.gridy = 5;
+    c.gridy = 6;
     this.add(new JScrollPane(this.cart), c);
 
     // Checkout
-    c.gridy = 6;
+    c.gridy = 7;
     this.add(this.checkoutBtn, c);
 
     // Info label
-    c.gridy = 7;
+    c.gridy = 8;
     this.add(this.infoLabel, c);
     c.gridwidth = 1;
 
@@ -141,5 +124,28 @@ public class ClientLayout extends JFrame {
 
   public void setInfoLabel(String info) {
     this.infoLabel.setText(info);
+  }
+
+  private class RefreshActionListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      ctrl.refreshProductList();
+    }
+  }
+
+  private class AddProductActionListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      ctrl.onAddProduct(
+          ((ComboBoxObject) productSelect.getSelectedItem()).getObject(),
+          (Integer) quantitySpinner.getValue());
+    }
+  }
+
+  private class CheckoutActionListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      ctrl.onCheckout();
+    }
   }
 }

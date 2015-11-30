@@ -1,97 +1,80 @@
 package clients;
 
-import models.CartItem;
-import models.CartTableModel;
+import model.CartItem;
 import soap.stub.*;
-import views.ClientLayout;
+import views.ComboBoxObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class SOAPClient implements ClientController {
+public class SOAPClient extends Client<StockItem> {
   private static WebShopService wsr = new WebShopService_Service().getWebShopServicePort();
 
-  private String uuid;
-  private ClientLayout window;
+  public SOAPClient() {
+    super("SOAP Client");
+  }
 
   public static void main(String[] args) {
     new SOAPClient();
   }
 
-  public SOAPClient() {
-    this.uuid = UUID.randomUUID().toString();
-    this.window = new ClientLayout(this, "SOAP Client");
-
-    refreshProductList();
-    window.setVisible(true);
+  @Override
+  public void checkoutImpl() {
+    getLayout().setInfoLabel(wsr.checkout(getUuid()));
+    ShoppingCart shoppingCart = wsr.getShoppingCart(getUuid());
+    updateShoppingCart(shoppingCart);
   }
 
-  private void refreshProductList() {
-    Stock stock = wsr.getStock();
-
-    window.removeAllProducts();
-    for (StockItem si : stock.getItems()) {
-      window.addProduct(new ComboBoxStockItem(si));
+  @Override
+  protected List<ComboBoxObject<StockItem>> getLatestProductList() {
+    List<ComboBoxObject<StockItem>> list = new ArrayList<>();
+    for (StockItem s : wsr.getStock().getItems()) {
+      list.add(new StubComboBoxObject(s));
     }
+    return list;
   }
 
-  private class ComboBoxStockItem implements ComboBoxObject {
-    StockItem i;
+  @Override
+  protected List<CartItem> addProduct(StockItem i, int quantity) {
+    Product p = i.getProduct();
+    ShoppingCart sc = wsr.putProduct(getUuid(), p.getId(), quantity);
+    return updateShoppingCart(sc);
+  }
 
-    public ComboBoxStockItem(StockItem i) {
-      this.i = i;
+  private List<CartItem> updateShoppingCart(ShoppingCart sc) {
+    List<CartItem> cartItems = new ArrayList<>();
+    for (ShoppingCartItem sci : sc.getItems()) {
+      cartItems.add(new CartItem(sci.getProduct().getId(), sci.getProduct().getName(),
+          sci.getProduct().getPrice(), sci.getQuantity()));
+    }
+
+    return cartItems;
+  }
+
+  @Override
+  protected List<CartItem> refreshShoppingCart() {
+    return updateShoppingCart(wsr.getShoppingCart(getUuid()));
+  }
+
+  static class StubComboBoxObject implements ComboBoxObject<StockItem> {
+
+    private final StockItem item;
+
+    public StubComboBoxObject(StockItem item) {
+      this.item = item;
     }
 
     @Override
-    public Object getObject() {
-      return i;
+    public StockItem getObject() {
+      return item;
     }
 
     @Override
     public String toString() {
       return String.format("%s (Price: %.2f Euro, In stock: %d)",
-          i.getProduct().getName(),
-          i.getProduct().getPrice(),
-          i.getQuantity());
+          item.getProduct().getName(),
+          item.getProduct().getPrice(),
+          item.getQuantity());
     }
-  }
-
-  private void updateCartItems(ShoppingCart shoppingCart) {
-    List<CartItem> cartItems = new ArrayList<CartItem>();
-    for (ShoppingCart.Items.Entry e : shoppingCart.getItems().getEntry()) {
-      cartItems.add(new CartItem(e.getKey().getId(), e.getKey().getName(), e.getKey().getPrice(), e.getValue()));
-    }
-
-    CartTableModel ctm = new CartTableModel(cartItems.toArray(new CartItem[0]));
-    window.setCartModel(ctm);
-  }
-
-  @Override
-  public void onAddProduct(Object o, int quantity) {
-    if (quantity == 0) {
-      window.setInfoLabel("The quantity must not be not equal 0!");
-      return;
-    }
-
-    StockItem i = (StockItem) o;
-    Product p = i.getProduct();
-    ShoppingCart shoppingCart = wsr.putProduct(uuid, p.getId(), quantity);
-
-    this.updateCartItems(shoppingCart);
-    window.setInfoLabel(String.format("Added product to cart: %s (x%d)", p.getName(), quantity));
-  }
-
-  @Override
-  public void onCheckout() {
-    window.setInfoLabel(wsr.checkout(uuid));
-    ShoppingCart shoppingCart = wsr.getShoppingCart(uuid);
-    updateCartItems(shoppingCart);
-    refreshProductList();
-  }
-
-  @Override
-  public String getUUID() {
-    return uuid;
   }
 }

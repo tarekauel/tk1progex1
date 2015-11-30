@@ -6,30 +6,36 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
+import model.CartItem;
 import views.ComboBoxObject;
 
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
 
 public class RestClient extends clients.Client<JsonObject> {
 
-  private static final JsonParser jsonParser = new JsonParser;
+  private static final JsonParser jsonParser = new JsonParser();
 
-  private static WebResource wr = Client.create().resource( "http://localhost:8080" );
-
-  private static String uuid = UUID.randomUUID().toString();
+  private static WebResource wr = Client.create().resource("http://localhost:8080");
 
   public RestClient() {
     super("REST-Client");
   }
 
-  @Override
-  public void onCheckout() {
+  public static void main(String[] args) {
+    new RestClient();
+  }
 
+  @Override
+  public void checkoutImpl() {
+    String response = jsonParser
+        .parse(
+            wr.path("cart").path("checkout").path(getUuid())
+                .accept(MediaType.APPLICATION_JSON).post(String.class))
+        .getAsString();
+
+    getLayout().setInfoLabel(response);
   }
 
   @Override
@@ -43,7 +49,7 @@ public class RestClient extends clients.Client<JsonObject> {
 
     List<ComboBoxObject<JsonObject>> result = new ArrayList<>();
 
-    for(JsonElement e : array) {
+    for (JsonElement e : array) {
       result.add(new JsonComboBoxItem(e.getAsJsonObject()));
     }
 
@@ -51,8 +57,42 @@ public class RestClient extends clients.Client<JsonObject> {
   }
 
   @Override
-  protected void addProduct(JsonObject o, int quantity) {
+  protected List<CartItem> addProduct(JsonObject o, int quantity) {
+    JsonArray array = jsonParser
+        .parse(wr
+            .path("cart").path(getUuid())
+            .path(o.getAsJsonObject("product").get("id").getAsString())
+            .queryParam("qty", quantity + "")
+            .accept(MediaType.APPLICATION_JSON)
+            .put(String.class))
+        .getAsJsonObject()
+        .getAsJsonArray("items");
 
+    List<CartItem> result = new ArrayList<>();
+    for (JsonElement e : array) {
+      JsonObject product = e.getAsJsonObject().getAsJsonObject("product");
+      result.add(new CartItem(product.get("id").getAsInt(), product.get("name").getAsString(),
+          product.get("price").getAsDouble(), e.getAsJsonObject().get("quantity").getAsInt()));
+    }
+    return result;
+  }
+
+  @Override
+  protected List<CartItem> refreshShoppingCart() {
+    JsonArray array = jsonParser
+        .parse(wr
+            .path("cart").path(getUuid()).accept(MediaType.APPLICATION_JSON)
+            .get(String.class))
+        .getAsJsonObject()
+        .getAsJsonArray("items");
+
+    List<CartItem> result = new ArrayList<>();
+    for (JsonElement e : array) {
+      JsonObject product = e.getAsJsonObject().getAsJsonObject("product");
+      result.add(new CartItem(product.get("id").getAsInt(), product.get("name").getAsString(),
+          product.get("price").getAsDouble(), e.getAsJsonObject().get("quantity").getAsInt()));
+    }
+    return result;
   }
 
   static class JsonComboBoxItem implements ComboBoxObject<JsonObject> {

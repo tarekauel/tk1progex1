@@ -2,60 +2,73 @@ package services.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @XmlRootElement
 public class ShoppingCart {
 
   private static final Map<String, ShoppingCart> scs = new HashMap<>();
-
-  public static ShoppingCart get(String uuid) {
-    return scs.containsKey(uuid) ? scs.get(uuid) : new ShoppingCart(uuid);
+  @XmlElement
+  private final List<ShoppingCartItem> items = new ArrayList<>();
+  @XmlElement
+  private String uuid;
+  private ShoppingCart() {
   }
 
-  @XmlElement private String uuid;
-  @XmlElement private final Map<Product, Integer> items = new HashMap<>();
-
-  private ShoppingCart() {}
   private ShoppingCart(String uuid) {
     this.uuid = uuid;
     scs.put(uuid, this);
   }
 
+  public static ShoppingCart get(String uuid) {
+    return scs.containsKey(uuid) ? scs.get(uuid) : new ShoppingCart(uuid);
+  }
+
   public ShoppingCart set(Product p, int quantity) {
     if (quantity == 0) {
-      items.remove(p);
+      items.remove(new ShoppingCartItem(p, 0));
     } else {
-    	int q = items.containsKey(p) ? items.get(p) : 0;
-    	items.put(p, q + quantity);
+      ShoppingCartItem sci = new ShoppingCartItem(p, quantity);
+      if (items.contains(sci)) {
+        int qOld = items.get(items.indexOf(sci)).getQuantity();
+        if (qOld + quantity <= 0) {
+          items.remove(items.indexOf(sci));
+        } else {
+          items.set(items.indexOf(sci), new ShoppingCartItem(p, qOld + quantity));
+        }
+      } else {
+        items.add(sci);
+      }
     }
-    
+
     return this;
   }
 
-  public Map<Product, Integer> get() {
+  public List<ShoppingCartItem> get() {
     return items;
   }
-  
+
   public synchronized String checkout() {
-	  Stock stock = Stock.get();
-	  
-	  for (Map.Entry<Product, Integer> e : items.entrySet()) {
-		  int instock = stock.get(e.getKey().getId()).getQuantity();
-		  
-		  if (instock == 0) {
-			  return String.format("Out of stock: %s", e.getKey().getName());
-		  } else if (instock < e.getValue()) {
-			  return String.format("You cannot purchase more than %d of %s", instock, e.getKey().getName());
-		  }
-	  }
-	  
-	  for (Map.Entry<Product, Integer> e : items.entrySet()) {
-		  stock.get(e.getKey().getId()).reduce(e.getValue());
-	  }
-	  
-	  items.clear();
-	  return "";
+    Stock stock = Stock.get();
+
+    for (ShoppingCartItem e : items) {
+      int instock = stock.get(e.getProduct().getId()).getQuantity();
+
+      if (instock == 0) {
+        return String.format("Out of stock: %s", e.getProduct().getName());
+      } else if (instock < e.getQuantity()) {
+        return String.format("You cannot purchase more than %d of %s", instock, e.getProduct().getName());
+      }
+    }
+
+    for (ShoppingCartItem e : items) {
+      stock.get(e.getProduct().getId()).reduce(e.getQuantity());
+    }
+
+    items.clear();
+    return "Successful";
   }
 }

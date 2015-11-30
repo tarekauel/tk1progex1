@@ -1,5 +1,7 @@
 package clients;
 
+import model.CartItem;
+import model.CartTableModel;
 import views.ClientLayout;
 import views.ComboBoxObject;
 
@@ -29,23 +31,35 @@ abstract public class Client<T> {
       return;
     }
 
-    addProduct(o, quantity);
+    refreshCartView(addProduct(o, quantity));
   }
 
   public ClientLayout getLayout() {
     return layout;
   }
 
-  private void refreshProductList() {
+  public void refreshProductList() {
     layout.removeAllProducts();
-    for(ComboBoxObject obj : getLatestProductList()) {
+    for (ComboBoxObject obj : getLatestProductList()) {
       layout.addProduct(obj);
     }
   }
 
-  abstract public void onCheckout();
+  public final void onCheckout() {
+    checkoutImpl();
+    refreshProductList();
+    refreshCartView(refreshShoppingCart());
+  }
+
+  private void refreshCartView(List<CartItem> items) {
+    layout.setCartModel(new CartTableModel(items.toArray(new CartItem[items.size()])));
+  }
+
+  abstract protected void checkoutImpl();
 
   abstract protected List<ComboBoxObject<T>> getLatestProductList();
 
-  abstract protected void addProduct(T o, int quantity);
+  abstract protected List<CartItem> addProduct(T o, int quantity);
+
+  abstract protected List<CartItem> refreshShoppingCart();
 }

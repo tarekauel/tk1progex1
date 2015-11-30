@@ -4,26 +4,9 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 public class CartTableModel implements TableModel {
-  public static enum Columns {
-    IDX(0),
-    PRODUCT_ID(1),
-    PRODUCT_NAME(2),
-    QUANTITY(3),
-    PRICE(4),
-    TOTAL(5);
-
-    private final int value;
-    private Columns(int value) {
-      this.value = value;
-    }
-
-    public int toInt() {
-      return value;
-    }
-  };
   private static String[] header = {"#", "Product ID", "Product Name", "Quantity", "Price", "Total"};
-  private CartItem[] items;
 
+  private CartItem[] items;
   public CartTableModel(CartItem[] items) {
     super();
 
@@ -70,12 +53,18 @@ public class CartTableModel implements TableModel {
     CartItem i = items[rowIndex];
 
     switch (columnIndex) {
-      case 0: return rowIndex + 1;
-      case 1: return i.getProductId();
-      case 2: return i.getProduct();
-      case 3: return i.getQuantity();
-      case 4: return i.getPrice();
-      case 5: return i.getPrice() * i.getQuantity();
+      case 0:
+        return rowIndex + 1;
+      case 1:
+        return i.getProductId();
+      case 2:
+        return i.getProduct();
+      case 3:
+        return i.getQuantity();
+      case 4:
+        return i.getPrice();
+      case 5:
+        return i.getPrice() * i.getQuantity();
     }
 
     return null;
@@ -96,5 +85,24 @@ public class CartTableModel implements TableModel {
   public void removeTableModelListener(TableModelListener l) {
     // TODO Auto-generated method stub
 
+  }
+
+  public enum Columns {
+    IDX(0),
+    PRODUCT_ID(1),
+    PRODUCT_NAME(2),
+    QUANTITY(3),
+    PRICE(4),
+    TOTAL(5);
+
+    private final int value;
+
+    Columns(int value) {
+      this.value = value;
+    }
+
+    public int toInt() {
+      return value;
+    }
   }
 }
