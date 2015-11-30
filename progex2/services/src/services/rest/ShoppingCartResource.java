@@ -1,5 +1,6 @@
 package services.rest;
 
+import com.google.gson.Gson;
 import services.model.Product;
 import services.model.ShoppingCart;
 
@@ -8,6 +9,8 @@ import javax.ws.rs.core.MediaType;
 
 @Path("cart")
 public class ShoppingCartResource {
+
+  private static final Gson gson = new Gson();
 
   @POST
   @Path("checkout/{uuid}")
@@ -19,24 +22,24 @@ public class ShoppingCartResource {
   @GET
   @Path("{uuid}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ShoppingCart getShoppingCart(@PathParam("uuid") String uuid) {
-    return ShoppingCart.get(uuid);
+  public String getShoppingCart(@PathParam("uuid") String uuid) {
+    return gson.toJson(ShoppingCart.get(uuid));
   }
 
   @PUT
   @Path("{uuid}/{productId}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ShoppingCart putProduct(@PathParam("uuid") String uuid,
+  public String putProduct(@PathParam("uuid") String uuid,
                            @PathParam("productId") int productId,
                            @DefaultValue("1") @QueryParam("qty") String qty) {
-    return ShoppingCart.get(uuid).set(Product.getProduct(productId), Integer.parseInt(qty));
+    return gson.toJson(ShoppingCart.get(uuid).set(Product.getProduct(productId), Integer.parseInt(qty)));
   }
 
   @DELETE
   @Path("{uuid}/{productId}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ShoppingCart removeProduct(@PathParam("uuid") String uuid,
+  public String removeProduct(@PathParam("uuid") String uuid,
                                  @PathParam("productId") int productId) {
-    return ShoppingCart.get(uuid).set(Product.getProduct(productId), 0);
+    return gson.toJson(ShoppingCart.get(uuid).set(Product.getProduct(productId), 0));
   }
 }
