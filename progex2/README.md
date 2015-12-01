@@ -26,7 +26,7 @@ File Hierachy
     - views/    The GUI used for both clients
   - build.xml   ANT script. Responsible to build SOAP stubs and start the REST and SOAP client
 
-- services      Contains the REST and SOAP server source code
+- services/     Contains the REST and SOAP server source code
   - lib/        Required 3rd party libraries (Same as in clients/lib)
   - src/
     - services/ 
@@ -34,3 +34,8 @@ File Hierachy
       - rest/   REST server related code
       - soap/   SOAP server related cod
   - build.xml   ANT script. Responsible to start up the REST and SOAP services on the localhost interface
+
+Notes
+=====
+- Please first run the ANT script within services/ before running the clients/ ANT script!
+- To remove items from the cart, use a negative value in the spinner UI control

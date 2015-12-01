@@ -16,7 +16,7 @@
 
     <target name="generate-client">
         <exec executable="${java.home}/../bin/wsimport">
-            <arg line=" -encoding UTF-8 -d src -keep -p soap.stub http://localhost:8090/?wsdl"/>
+            <arg line=" -d src -keep -p soap.stub http://localhost:8090/?wsdl"/>
         </exec>
     </target>
 
