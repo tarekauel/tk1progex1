@@ -40,7 +40,9 @@ public class ShoppingCart {
           items.set(items.indexOf(sci), new ShoppingCartItem(p, qOld + quantity));
         }
       } else {
-        items.add(sci);
+        if(quantity>0){
+        	items.add(sci);
+        }
       }
     }
 
