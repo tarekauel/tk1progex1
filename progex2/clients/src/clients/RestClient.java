@@ -8,6 +8,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import model.CartItem;
 import views.ComboBoxObject;
+import utility.StringFormatter;
 
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class RestClient extends clients.Client<JsonObject> {
             wr.path("cart").path("checkout").path(getUuid())
                 .accept(MediaType.APPLICATION_JSON).post(String.class))
         .getAsString();
-
+    response = StringFormatter.formatCheckoutResult(response);
     getLayout().setInfoLabel(response);
   }
 

@@ -60,9 +60,10 @@ public class ShoppingCart {
       int instock = stock.get(e.getProduct().getId()).getQuantity();
 
       if (instock == 0) {
-        return String.format("Out of stock: %s", e.getProduct().getName());
+        return String.format("1" + e.getProduct().getName());
       } else if (instock < e.getQuantity()) {
-        return String.format("You cannot purchase more than %d of %s", instock, e.getProduct().getName());
+    	  int count = String.valueOf(instock).length();
+    	  return String.format("2" + count + instock + e.getProduct().getName());
       }
     }
 
@@ -71,6 +72,6 @@ public class ShoppingCart {
     }
 
     items.clear();
-    return "Successful";
+    return "0";
   }
 }

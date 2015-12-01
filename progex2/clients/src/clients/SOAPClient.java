@@ -3,6 +3,7 @@ package clients;
 import model.CartItem;
 import soap.stub.*;
 import views.ComboBoxObject;
+import utility.StringFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class SOAPClient extends Client<StockItem> {
 
   @Override
   public void checkoutImpl() {
-    getLayout().setInfoLabel(wsr.checkout(getUuid()));
+    getLayout().setInfoLabel(StringFormatter.formatCheckoutResult(wsr.checkout(getUuid())));
     ShoppingCart shoppingCart = wsr.getShoppingCart(getUuid());
     updateShoppingCart(shoppingCart);
   }

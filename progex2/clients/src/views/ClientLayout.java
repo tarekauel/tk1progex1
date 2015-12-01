@@ -27,8 +27,7 @@ public class ClientLayout extends JFrame {
     this.windowTitle = title;
     this.UUID = new JLabel(ctrl.getUuid());
     this.productSelect = new JComboBox<>(new ComboBoxObject[0]);
-    this.quantitySpinner = new JSpinner();
-    this.quantitySpinner.setValue(1);
+    this.quantitySpinner = new JSpinner(new SpinnerNumberModel(1,Integer.MIN_VALUE,Integer.MAX_VALUE,1));
     this.addProductBtn = new JButton("Add to cart");
     this.refreshBtn = new JButton("Refresh");
     this.checkoutBtn = new JButton("Checkout");
