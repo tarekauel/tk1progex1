@@ -3,7 +3,6 @@ package clients;
 import model.CartItem;
 import model.CartTableModel;
 import views.ClientLayout;
-import views.ComboBoxObject;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +39,7 @@ abstract public class Client<T> {
 
   public void refreshProductList() {
     layout.removeAllProducts();
-    for (ComboBoxObject obj : getLatestProductList()) {
+    for (ComboBoxObject<T> obj : getLatestProductList()) {
       layout.addProduct(obj);
     }
   }

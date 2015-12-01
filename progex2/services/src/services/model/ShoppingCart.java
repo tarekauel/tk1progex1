@@ -53,25 +53,46 @@ public class ShoppingCart {
     return items;
   }
 
-  public synchronized String checkout() {
+  public synchronized CheckoutResponse checkout() {
     Stock stock = Stock.get();
+    CheckoutResponse response = new CheckoutResponse();
 
     for (ShoppingCartItem e : items) {
       int instock = stock.get(e.getProduct().getId()).getQuantity();
 
       if (instock == 0) {
-        return String.format("1" + e.getProduct().getName());
+    	response.code = CheckoutResponse.FAILURE;
+    	response.message =	String.format("We are sorry! %s is out of stock!", e.getProduct().getName());
+    	return response;
       } else if (instock < e.getQuantity()) {
-    	  int count = String.valueOf(instock).length();
-    	  return String.format("2" + count + instock + e.getProduct().getName());
+    	response.code = CheckoutResponse.FAILURE;
+    	response.message = String.format("Too bad, we are missing %d items of %s. (In Stock: %d, Ordered: %d)",
+    			e.getQuantity() - instock,
+    			e.getProduct().getName(),
+    			instock,
+    			e.getQuantity());
+    	return response;
       }
     }
-
+    
+    double checkoutValue = .0;
     for (ShoppingCartItem e : items) {
+      checkoutValue += e.getProduct().getPrice() * e.getQuantity();
       stock.get(e.getProduct().getId()).reduce(e.getQuantity());
     }
 
     items.clear();
-    return "0";
+    
+    response.code = CheckoutResponse.SUCCESS;
+    response.message = String.format("Checkout successful! Your credit card is charged with %.2f EURO", checkoutValue);
+    return response;
+  }
+  
+  public static class CheckoutResponse {
+	public static final int SUCCESS = 200;
+	public static final int FAILURE = 300;
+	  
+	public int code;
+	public String message = "";
   }
 }

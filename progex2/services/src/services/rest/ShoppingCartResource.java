@@ -16,7 +16,7 @@ public class ShoppingCartResource {
   @Path("checkout/{uuid}")
   @Produces(MediaType.APPLICATION_JSON)
   public String checkout(@PathParam("uuid") String uuid) {
-    return ShoppingCart.get(uuid).checkout();
+    return gson.toJson(ShoppingCart.get(uuid).checkout());
   }
 
   @GET

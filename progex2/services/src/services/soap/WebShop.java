@@ -4,6 +4,7 @@ import services.model.Product;
 import services.model.ShoppingCart;
 import services.model.Stock;
 import services.model.StockItem;
+import services.model.ShoppingCart.CheckoutResponse;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -23,14 +24,8 @@ public class WebShop {
   }
 
   @WebMethod
-  public String checkout(String uuid) {
-    String errorMsg = ShoppingCart.get(uuid).checkout();
-
-    if (errorMsg.isEmpty()) {
-      return "Checkout successful!";
-    } else {
-      return errorMsg;
-    }
+  public CheckoutResponse checkout(String uuid) {
+    return ShoppingCart.get(uuid).checkout();
   }
 
   @WebMethod

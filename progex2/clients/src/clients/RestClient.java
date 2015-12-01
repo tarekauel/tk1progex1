@@ -7,8 +7,6 @@ import com.google.gson.JsonParser;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import model.CartItem;
-import views.ComboBoxObject;
-import utility.StringFormatter;
 
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
@@ -30,13 +28,18 @@ public class RestClient extends clients.Client<JsonObject> {
 
   @Override
   public void checkoutImpl() {
-    String response = jsonParser
-        .parse(
-            wr.path("cart").path("checkout").path(getUuid())
-                .accept(MediaType.APPLICATION_JSON).post(String.class))
-        .getAsString();
-    response = StringFormatter.formatCheckoutResult(response);
-    getLayout().setInfoLabel(response);
+    JsonObject response = jsonParser
+        .parse(wr
+        	.path("cart")
+        	.path("checkout")
+        	.path(getUuid())
+        	.accept(MediaType.APPLICATION_JSON)
+        	.post(String.class))
+        .getAsJsonObject();
+    
+    // int returncode = response.get("code").getAsInt(); // Unused
+    String message = response.get("message").getAsString();
+    getLayout().setInfoLabel(message);
   }
 
   @Override

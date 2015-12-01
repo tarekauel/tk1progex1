@@ -1,6 +1,7 @@
 package views;
 
 import clients.Client;
+import clients.ComboBoxObject;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -29,7 +30,7 @@ public class ClientLayout extends JFrame {
     this.productSelect = new JComboBox<>(new ComboBoxObject[0]);
     this.quantitySpinner = new JSpinner(new SpinnerNumberModel(1,Integer.MIN_VALUE,Integer.MAX_VALUE,1));
     this.addProductBtn = new JButton("Add to cart");
-    this.refreshBtn = new JButton("Refresh");
+    this.refreshBtn = new JButton("Refresh stock items");
     this.checkoutBtn = new JButton("Checkout");
     this.cart = new JTable();
     this.infoLabel = new JLabel();
@@ -81,7 +82,7 @@ public class ClientLayout extends JFrame {
     c.gridx = 1;
     this.add(this.addProductBtn, c);
 
-    // Add to cart
+    // Refresh stock
     c.gridy = 4;
     c.gridx = 1;
     this.add(this.refreshBtn, c);
