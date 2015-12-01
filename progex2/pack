@@ -1,0 +1,3 @@
+#!/bin/bash
+tar -cvf tk1-progex2.tar ./clients/src/clients/* ./clients/src/model/* ./clients/src/views/* \
+ ./clients/build.xml ./clients/lib/* ./services/src/* ./services/build.xml ./services/lib/*

@@ -1,86 +1,81 @@
 package clients;
 
-import gen.WebShopService;
-import gen.WebShopService_Service;
+import model.CartItem;
+import soap.stub.*;
+import views.ComboBoxObject;
+import utility.StringFormatter;
 
-import java.io.IOException;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SOAPClient {
-
+public class SOAPClient extends Client<StockItem> {
   private static WebShopService wsr = new WebShopService_Service().getWebShopServicePort();
 
-  private static String uuid = UUID.randomUUID().toString();
+  public SOAPClient() {
+    super("SOAP Client");
+  }
 
-  public static void main(String[] args) throws IOException {
-    System.out.printf("SOAP-Client\n");
-    System.out.printf("Welcome, your UUID is %s\n", uuid);
+  public static void main(String[] args) {
+    new SOAPClient();
+  }
 
-    int input;
-    while(true) {
-      printOption();
-      do {
-        input = Integer.parseInt(getStringInput());
-      } while (input < 0 || input > 9);
-      perform(input);
+  @Override
+  public void checkoutImpl() {
+    getLayout().setInfoLabel(StringFormatter.formatCheckoutResult(wsr.checkout(getUuid())));
+    ShoppingCart shoppingCart = wsr.getShoppingCart(getUuid());
+    updateShoppingCart(shoppingCart);
+  }
+
+  @Override
+  protected List<ComboBoxObject<StockItem>> getLatestProductList() {
+    List<ComboBoxObject<StockItem>> list = new ArrayList<>();
+    for (StockItem s : wsr.getStock().getItems()) {
+      list.add(new StubComboBoxObject(s));
     }
+    return list;
   }
 
-  private static void perform(int choice) throws IOException {
-    switch (choice) {
-      case 0: {
-        System.out.println(wsr.getCatalog());
-        break;
-      }
-      case 1: {
-        System.out.printf("product name?\n");
-        String name = getStringInput();
-        System.out.println(wsr.getCatalogItem(name));
-        break;
-      }
-      case 2: {
-        System.out.printf("product name?\n");
-        String name = getStringInput();
-        System.out.printf("Quantity?\n");
-        int qty = Integer.parseInt(getStringInput());
-        System.out.println(wsr.putProduct(uuid, name, qty));
-        break;
-      }
-      case 3: {
-        System.out.printf("product name?\n");
-        String name = getStringInput();
-        System.out.println(wsr.deleteProduct(uuid, name));
-        break;
-      }
-      case 4: {
-        System.out.println(wsr.getShoppingCart(uuid));
-        break;
-      }
-      case 5: {
-        System.out.println(wsr.checkout(uuid));
-        break;
-      }
+  @Override
+  protected List<CartItem> addProduct(StockItem i, int quantity) {
+    Product p = i.getProduct();
+    ShoppingCart sc = wsr.putProduct(getUuid(), p.getId(), quantity);
+    return updateShoppingCart(sc);
+  }
 
-      default:
-        System.err.println("No action for: " + choice);
+  private List<CartItem> updateShoppingCart(ShoppingCart sc) {
+    List<CartItem> cartItems = new ArrayList<>();
+    for (ShoppingCartItem sci : sc.getItems()) {
+      cartItems.add(new CartItem(sci.getProduct().getId(), sci.getProduct().getName(),
+          sci.getProduct().getPrice(), sci.getQuantity()));
     }
+
+    return cartItems;
   }
 
-  private static String getStringInput() {
-    Scanner sc = new Scanner(System.in);
-    return sc.nextLine();
+  @Override
+  protected List<CartItem> refreshShoppingCart() {
+    return updateShoppingCart(wsr.getShoppingCart(getUuid()));
   }
 
-  private static void printOption() {
-    System.out.printf(
-        "Please choose an option:\n" +
-            "0: Show catalog\n" +
-            "1: Show item of catalog\n" +
-            "2: Put item into shopping cart\n" +
-            "3: Remove item from shopping cart\n" +
-            "4: Show shopping cart\n" +
-            "5: Checkout:\n");
+  static class StubComboBoxObject implements ComboBoxObject<StockItem> {
 
+    private final StockItem item;
+
+    public StubComboBoxObject(StockItem item) {
+      this.item = item;
+    }
+
+    @Override
+    public StockItem getObject() {
+      return item;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("%s (Price: %.2f Euro, In stock: %d)",
+          item.getProduct().getName(),
+          item.getProduct().getPrice(),
+          item.getQuantity());
+    }
   }
 }

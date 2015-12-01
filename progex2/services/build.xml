@@ -5,7 +5,7 @@
         TK1 - Programmieraufgabe 2 - Services
     </description>
 
-    <target name="all" depends="clean, compile, jar, run" />
+    <target name="all" depends="clean, compile, jar, run"/>
 
     <target name="clean">
         <delete dir="out"/>
@@ -13,10 +13,10 @@
     </target>
 
     <target name="compile">
-        <mkdir dir="out" />
+        <mkdir dir="out"/>
         <javac srcdir="src" destdir="out" includeantruntime="false">
             <classpath>
-                <pathelement path="${classpath}" />
+                <pathelement path="${classpath}"/>
                 <fileset dir="lib">
                     <include name="**/*.jar"/>
                 </fileset>
