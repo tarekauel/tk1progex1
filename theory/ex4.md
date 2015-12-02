@@ -19,13 +19,15 @@ It may requires some fine tuning, as some attributes are optional.
     xmlns="http://schemas.xmlsoap.org/wsdl/"
     targetNamespace="http://tk.informatik.tu-darmstadt.de"
     name="LocationServiceImplService">
-    
+
     <types>
         <xsd:schema>
-            <xsd:import
-                namespace="http://tk.informatik.tu-darmstadt.de"
-                schemaLocation="http://localhost:8090/?xsd=1">
-            </xsd:import>
+            <xsd:complexType name="Location">
+                <xsd:sequence>
+                    <xsd:element name="x" type="xsd:int"/>
+                    <xsd:element name="y" type="xsd:int"/>
+                </xsd:sequence>
+            </xsd:complexType>
         </xsd:schema>
     </types>
 
@@ -132,14 +134,15 @@ It may requires some fine tuning, as some attributes are optional.
         <td>
             Die Adressierung folgt durch die Nutzung von Domains (DNS Protokoll).
             Klassischerweise werden die verschiedenen Endpunkte durch
-            zusammengesetzte URL's angesprichen ("Resourcen"). Eine Resource ist
+            zusammengesetzte URL's angesprochen ("Resourcen"). Eine Resource ist
             dabei überlicherweise eine Auflistung eines Typs (z.B. Liste von
             Nutzern) oder eine konkrete Instanz des Typs (z.B. ein bestimmter
             Nutzer)
         </td>
 
         <td>
-            Im Falle von SOAP over HTTP dient auch hier das DNS Protokoll.
+            Im Falle von SOAP over HTTP dient auch hier das DNS Protokoll. Durch XML
+            Namespacing werden einzelne Methoden, komplexe Typen usw. identifieziert.
             Die konkret erreichbaren Endpunkte sind durch die WSDL Datei beschrieben,
             die von dem Dienst bereitgestellt wird.
         </td>
@@ -148,6 +151,6 @@ It may requires some fine tuning, as some attributes are optional.
     <tr>
         <td><i>State</i></td>
         <td>Kein State.</td>
-        <td>I.d.R. auch kein State?</td>
+        <td>I.d.R. auch kein State.</td>
     </tr>
 </table>
