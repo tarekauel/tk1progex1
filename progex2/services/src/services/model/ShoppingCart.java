@@ -2,48 +2,97 @@ package services.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @XmlRootElement
 public class ShoppingCart {
 
   private static final Map<String, ShoppingCart> scs = new HashMap<>();
-
-  public static ShoppingCart get(String uuid) {
-    return scs.containsKey(uuid) ? scs.get(uuid) : new ShoppingCart(uuid);
+  @XmlElement
+  private final List<ShoppingCartItem> items = new ArrayList<>();
+  @XmlElement
+  private String uuid;
+  private ShoppingCart() {
   }
-
-  @XmlElement private String uuid;
-
-  @XmlElement private final Map<Product, Integer> items = new HashMap<>();
-
-  public ShoppingCart() {};
 
   private ShoppingCart(String uuid) {
     this.uuid = uuid;
     scs.put(uuid, this);
   }
 
+  public static ShoppingCart get(String uuid) {
+    return scs.containsKey(uuid) ? scs.get(uuid) : new ShoppingCart(uuid);
+  }
+
   public ShoppingCart set(Product p, int quantity) {
     if (quantity == 0) {
-      items.remove(p);
+      items.remove(new ShoppingCartItem(p, 0));
     } else {
-      items.put(p, quantity);
+      ShoppingCartItem sci = new ShoppingCartItem(p, quantity);
+      if (items.contains(sci)) {
+        int qOld = items.get(items.indexOf(sci)).getQuantity();
+        if (qOld + quantity <= 0) {
+          items.remove(items.indexOf(sci));
+        } else {
+          items.set(items.indexOf(sci), new ShoppingCartItem(p, qOld + quantity));
+        }
+      } else {
+        if(quantity>0){
+        	items.add(sci);
+        }
+      }
     }
+
     return this;
   }
 
-  public Map<Product, Integer> get() {
+  public List<ShoppingCartItem> get() {
     return items;
   }
 
-  @Override
-  public String toString() {
-    String out = String.format("Shopping cart:\n%10s %8s\n", "Product", "Quantity");
-    for (Map.Entry<Product, Integer> e : items.entrySet()) {
-      out += String.format("%10s %8d\n", e.getKey().getName(), e.getValue());
+  public synchronized CheckoutResponse checkout() {
+    Stock stock = Stock.get();
+    CheckoutResponse response = new CheckoutResponse();
+
+    for (ShoppingCartItem e : items) {
+      int instock = stock.get(e.getProduct().getId()).getQuantity();
+
+      if (instock == 0) {
+    	response.code = CheckoutResponse.FAILURE;
+    	response.message =	String.format("We are sorry! %s is out of stock!", e.getProduct().getName());
+    	return response;
+      } else if (instock < e.getQuantity()) {
+    	response.code = CheckoutResponse.FAILURE;
+    	response.message = String.format("Too bad, we are missing %d items of %s. (In Stock: %d, Ordered: %d)",
+    			e.getQuantity() - instock,
+    			e.getProduct().getName(),
+    			instock,
+    			e.getQuantity());
+    	return response;
+      }
     }
-    return out;
+    
+    double checkoutValue = .0;
+    for (ShoppingCartItem e : items) {
+      checkoutValue += e.getProduct().getPrice() * e.getQuantity();
+      stock.get(e.getProduct().getId()).reduce(e.getQuantity());
+    }
+
+    items.clear();
+    
+    response.code = CheckoutResponse.SUCCESS;
+    response.message = String.format("Checkout successful! Your credit card is charged with %.2f EURO", checkoutValue);
+    return response;
+  }
+  
+  public static class CheckoutResponse {
+	public static final int SUCCESS = 200;
+	public static final int FAILURE = 300;
+	  
+	public int code;
+	public String message = "";
   }
 }

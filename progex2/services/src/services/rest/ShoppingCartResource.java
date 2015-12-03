@@ -1,7 +1,6 @@
 package services.rest;
 
-import services.model.Bill;
-import services.model.Catalog;
+import com.google.gson.Gson;
 import services.model.Product;
 import services.model.ShoppingCart;
 
@@ -11,38 +10,36 @@ import javax.ws.rs.core.MediaType;
 @Path("cart")
 public class ShoppingCartResource {
 
+  private static final Gson gson = new Gson();
+
   @POST
   @Path("checkout/{uuid}")
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.APPLICATION_JSON)
   public String checkout(@PathParam("uuid") String uuid) {
-    if (Catalog.get().purchase(ShoppingCart.get(uuid))) {
-      return new Bill(ShoppingCart.get(uuid)).toString();
-    } else {
-      return Bill.NOT_AVAILABLE.toString();
-    }
+    return gson.toJson(ShoppingCart.get(uuid).checkout());
   }
 
   @GET
   @Path("{uuid}")
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.APPLICATION_JSON)
   public String getShoppingCart(@PathParam("uuid") String uuid) {
-    return ShoppingCart.get(uuid).toString();
+    return gson.toJson(ShoppingCart.get(uuid));
   }
 
   @PUT
-  @Path("{uuid}/{product}")
-  @Produces(MediaType.TEXT_PLAIN)
+  @Path("{uuid}/{productId}")
+  @Produces(MediaType.APPLICATION_JSON)
   public String putProduct(@PathParam("uuid") String uuid,
-                           @PathParam("product") String product,
-                           @DefaultValue("1") @QueryParam("qty") String qty     ) {
-    return ShoppingCart.get(uuid).set(Product.getProduct(product), Integer.parseInt(qty)).toString();
+                           @PathParam("productId") int productId,
+                           @DefaultValue("1") @QueryParam("qty") String qty) {
+    return gson.toJson(ShoppingCart.get(uuid).set(Product.getProduct(productId), Integer.parseInt(qty)));
   }
 
   @DELETE
-  @Path("{uuid}/{product}")
-  @Produces(MediaType.TEXT_PLAIN)
+  @Path("{uuid}/{productId}")
+  @Produces(MediaType.APPLICATION_JSON)
   public String removeProduct(@PathParam("uuid") String uuid,
-                                 @PathParam("product") String product) {
-    return ShoppingCart.get(uuid).set(Product.getProduct(product), 0).toString();
+                              @PathParam("productId") int productId) {
+    return gson.toJson(ShoppingCart.get(uuid).set(Product.getProduct(productId), 0));
   }
 }
