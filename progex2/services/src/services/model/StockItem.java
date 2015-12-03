@@ -7,7 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class StockItem {
 
   @XmlElement
-  private Product product;
+  private int productId;
+
   @XmlElement
   private int quantity;
 
@@ -15,12 +16,12 @@ public class StockItem {
   }
 
   public StockItem(Product product, int quantity) {
-    this.product = product;
+    this.productId = product.getId();
     this.quantity = quantity;
   }
 
   public Product getProduct() {
-    return product;
+    return Product.getProduct(productId);
   }
 
   public int getQuantity() {

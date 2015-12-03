@@ -28,7 +28,7 @@ public class SOAPClient extends Client<StockItem> {
   @Override
   protected List<ComboBoxObject<StockItem>> getLatestProductList() {
     List<ComboBoxObject<StockItem>> list = new ArrayList<>();
-    for (StockItem s : wsr.getStock().getItems()) {
+    for (StockItem s : wsr.getAllStockItems().getItem()) {
       list.add(new StubComboBoxObject(s));
     }
     return list;
@@ -36,7 +36,7 @@ public class SOAPClient extends Client<StockItem> {
 
   @Override
   protected List<CartItem> addProduct(StockItem i, int quantity) {
-    Product p = i.getProduct();
+    Product p = wsr.getProduct(i.getProductId());
     ShoppingCart sc = wsr.putProduct(getUuid(), p.getId(), quantity);
     return updateShoppingCart(sc);
   }
@@ -44,8 +44,8 @@ public class SOAPClient extends Client<StockItem> {
   private List<CartItem> updateShoppingCart(ShoppingCart sc) {
     List<CartItem> cartItems = new ArrayList<>();
     for (ShoppingCartItem sci : sc.getItems()) {
-      cartItems.add(new CartItem(sci.getProduct().getId(), sci.getProduct().getName(),
-          sci.getProduct().getPrice(), sci.getQuantity()));
+      Product p = wsr.getProduct(sci.getProductId());
+      cartItems.add(new CartItem(p.getId(), p.getName(), p.getPrice(), sci.getQuantity()));
     }
 
     return cartItems;
@@ -71,9 +71,10 @@ public class SOAPClient extends Client<StockItem> {
 
     @Override
     public String toString() {
+      Product p = wsr.getProduct(item.getProductId());
       return String.format("%s (Price: %.2f Euro, In stock: %d)",
-          item.getProduct().getName(),
-          item.getProduct().getPrice(),
+          p.getName(),
+          p.getPrice(),
           item.getQuantity());
     }
   }

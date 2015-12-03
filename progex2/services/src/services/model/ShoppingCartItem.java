@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ShoppingCartItem {
 
   @XmlElement
-  private Product product;
+  private int productId;
   @XmlElement
   private int quantity;
 
@@ -15,12 +15,12 @@ public class ShoppingCartItem {
   }
 
   public ShoppingCartItem(Product product, int quantity) {
-    this.product = product;
+    this.productId = product.getId();
     this.quantity = quantity;
   }
 
   public Product getProduct() {
-    return product;
+    return Product.getProduct(productId);
   }
 
   public int getQuantity() {
@@ -29,6 +29,6 @@ public class ShoppingCartItem {
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof ShoppingCartItem && ((ShoppingCartItem) obj).product == product;
+    return obj instanceof ShoppingCartItem && ((ShoppingCartItem) obj).productId == productId;
   }
 }

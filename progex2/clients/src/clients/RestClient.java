@@ -36,8 +36,7 @@ public class RestClient extends clients.Client<JsonObject> {
         	.accept(MediaType.APPLICATION_JSON)
         	.post(String.class))
         .getAsJsonObject();
-    
-    // int returncode = response.get("code").getAsInt(); // Unused
+
     String message = response.get("message").getAsString();
     getLayout().setInfoLabel(message);
   }
@@ -65,7 +64,7 @@ public class RestClient extends clients.Client<JsonObject> {
     JsonArray array = jsonParser
         .parse(wr
             .path("cart").path(getUuid())
-            .path(o.getAsJsonObject("product").get("id").getAsString())
+            .path(o.get("productId").getAsString())
             .queryParam("qty", quantity + "")
             .accept(MediaType.APPLICATION_JSON)
             .put(String.class))
@@ -74,7 +73,7 @@ public class RestClient extends clients.Client<JsonObject> {
 
     List<CartItem> result = new ArrayList<>();
     for (JsonElement e : array) {
-      JsonObject product = e.getAsJsonObject().getAsJsonObject("product");
+      JsonObject product = getProduct(e.getAsJsonObject().get("productId").getAsString());
       result.add(new CartItem(product.get("id").getAsInt(), product.get("name").getAsString(),
           product.get("price").getAsDouble(), e.getAsJsonObject().get("quantity").getAsInt()));
     }
@@ -92,11 +91,18 @@ public class RestClient extends clients.Client<JsonObject> {
 
     List<CartItem> result = new ArrayList<>();
     for (JsonElement e : array) {
-      JsonObject product = e.getAsJsonObject().getAsJsonObject("product");
+      JsonObject product = getProduct(e.getAsJsonObject().get("productId").getAsString());
       result.add(new CartItem(product.get("id").getAsInt(), product.get("name").getAsString(),
           product.get("price").getAsDouble(), e.getAsJsonObject().get("quantity").getAsInt()));
     }
     return result;
+  }
+
+  private static JsonObject getProduct(String productId) {
+    return jsonParser
+        .parse(wr
+            .path("product").path(productId).accept(MediaType.APPLICATION_JSON).get(String.class))
+        .getAsJsonObject();
   }
 
   static class JsonComboBoxItem implements ComboBoxObject<JsonObject> {
@@ -114,9 +120,10 @@ public class RestClient extends clients.Client<JsonObject> {
 
     @Override
     public String toString() {
+      JsonObject p = getProduct(obj.get("productId").getAsString());
       return String.format("%s (Price: %.2f Euro, In stock: %d)",
-          obj.getAsJsonObject("product").get("name").getAsString(),
-          obj.getAsJsonObject("product").get("price").getAsDouble(),
+          p.get("name").getAsString(),
+          p.get("price").getAsDouble(),
           obj.get("quantity").getAsInt());
     }
   }

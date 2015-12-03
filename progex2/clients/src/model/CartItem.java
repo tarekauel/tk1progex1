@@ -1,6 +1,7 @@
 package model;
 
 public class CartItem {
+
   private int productId;
   private String productDescription;
   private double price;

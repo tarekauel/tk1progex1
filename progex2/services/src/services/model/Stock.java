@@ -3,7 +3,6 @@ package services.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
-import java.util.Collections;
 
 @XmlRootElement
 public class Stock {
@@ -13,6 +12,7 @@ public class Stock {
       new StockItem(Product.getProduct(1), 5),
       new StockItem(Product.getProduct(2), 1)
   });
+
   @XmlElement
   private ArrayList<StockItem> items = new ArrayList<>();
 
@@ -20,11 +20,17 @@ public class Stock {
   }
 
   private Stock(StockItem[] i) {
-    Collections.addAll(items, i);
+    for(StockItem si : i) {
+      items.add(si);
+    }
   }
 
   public static Stock get() {
     return stock;
+  }
+
+  public ArrayList<StockItem> getItems() {
+    return items;
   }
 
   public StockItem get(int productId) {

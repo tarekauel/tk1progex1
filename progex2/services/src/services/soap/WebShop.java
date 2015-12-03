@@ -2,9 +2,9 @@ package services.soap;
 
 import services.model.Product;
 import services.model.ShoppingCart;
+import services.model.ShoppingCart.CheckoutResponse;
 import services.model.Stock;
 import services.model.StockItem;
-import services.model.ShoppingCart.CheckoutResponse;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -16,6 +16,11 @@ public class WebShop {
   @WebMethod
   public Stock getStock() {
     return Stock.get();
+  }
+
+  @WebMethod
+  public StockItem[] getAllStockItems() {
+    return Stock.get().getItems().toArray(new StockItem[3]);
   }
 
   @WebMethod
