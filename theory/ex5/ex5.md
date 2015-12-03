@@ -393,9 +393,9 @@ This is also the reason why router 5 in the solution above does forward the
 subscription updates of router 3 and 4 only to router 6.
 
 One way to solve this problem is to remove either of the brokers 3 and 4. Another
-way to solve the problem is to create an acyclic tree - e.g. using the spanning
+way to solve the problem is to create an acyclic tree - e.g. by using the spanning
 tree algorithm. For example, removing the link between node 4 and 5 would result
-in an acyclic tree.
+in an acyclic tree (but also render node 4 useless)
 
 ### Subtask c
 Yes, if a notification from P is received by router 5, it duplicates the
@@ -403,14 +403,47 @@ notification and sends it to router 3 and 4. They continue to forward the
 notification to router 2 (according to their routing tables) which eventually
 delivers both of them to router 1 and theirfore to subscriber S.
 
-The problem can be solved the same way as described before.
+The problem can be solved the same way as described before. Of course, the
+routing tables would require an update afterwards! (e.g. remove entry (4,F) from
+router 5)
 
 ## Task 2: Addressing
-TODO
+<table>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Task 1: Subscription</th>
+        <th>Task 2: Filtering</th>
+    </tr>
+    <tr>
+        <td><b>Channel based</b></td>
+        <td>TODO</td>
+        <td>TODO</td>
+    </tr>
+    <tr>
+        <td><b>Topic based</b></td>
+        <td>TODO</td>
+        <td>TODO</td>
+    </tr>
+    <tr>
+        <td><b>Type based</b></td>
+        <td>TODO</td>
+        <td>TODO</td>
+    </tr>
+    <tr>
+        <td><b>Subject based</b></td>
+        <td>TODO</td>
+        <td>TODO</td>
+    </tr>
+    <tr>
+        <td><b>Content based</b></td>
+        <td>TODO</td>
+        <td>TODO</td>
+    </tr>
+</table>
 
 ## Task 3: Router Topologies
 (See slide 28 of the TK1-2.2 slideset)
 
-a) Centralized Server, because of the hierachie, which ends at a centralized server
-b) Acyclic Peer-to-Peer, because of the undirected routing graph (acyclic)
-c) Generic Peer-to-Peer, because of the undirected routing graph (with cycles)
+- a) Centralized Server, because of the hierarchie, which ends at a centralized server
+- b) Acyclic Peer-to-Peer, because of the undirected network tree (acyclic)
+- c) Generic Peer-to-Peer, because of the undirected network graph (with cycles)
