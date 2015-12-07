@@ -261,7 +261,7 @@
                   <td>F</td>
               </tr>
               <tr>
-                  <td>5;</td>
+                  <td>5</td>
                   <td>F</td>
               </tr>
           </table>
@@ -288,6 +288,84 @@
   </tr>
 </table>
 
+#### Step 7.1:
+![Step 7][state7]
+<table>
+  <tr>
+      <td>
+          <table>
+              <tr>
+                  <th colspan="2">Router 2</th>
+              </tr>
+              <tr>
+                  <td><i>D</i></td>
+                  <td><i>Filter</i></td>
+              </tr>
+              <tr>
+                  <td>1</td>
+                  <td>F</td>
+              </tr>
+              <tr>
+                  <td>3</td>
+                  <td>F</td>
+              </tr>
+          </table>
+        </td>
+  </tr>
+</table>
+
+#### Step 7.2:
+![Step 8][state8]
+<table>
+  <tr>
+      <td>
+          <table>
+              <tr>
+                  <th colspan="2">Router 2</th>
+              </tr>
+              <tr>
+                  <td><i>D</i></td>
+                  <td><i>Filter</i></td>
+              </tr>
+              <tr>
+                  <td>1</td>
+                  <td>F</td>
+              </tr>
+              <tr>
+                  <td>3</td>
+                  <td>F</td>
+              </tr>
+              <tr>
+                  <td>4</td>
+                  <td>F</td>
+              </tr>
+          </table>
+        </td>
+  </tr>
+</table>
+
+#### Step 9:
+![Step 9][state9]
+<table>
+  <tr>
+      <td>
+         <table>
+             <tr>
+                 <th colspan="2">Router 1</th>
+             </tr>
+             <tr>
+                 <td><i>D</i></td>
+                 <td><i>Filter</i></td>
+             </tr>
+             <tr>
+                 <td>2</td>
+                 <td>F</td>
+             </tr>
+         </table>
+      </td>
+  </tr>
+</table>
+
 #### Final routing tables
 <table>
     <tr>
@@ -301,8 +379,8 @@
                     <td><i>Filter</i></td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td>2</td>
+                    <td>F</td>
                 </tr>
             </table>
         </td>
@@ -321,8 +399,12 @@
                     <td>F</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td>3</td>
+                    <td>F</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>F</td>
                 </tr>
             </table>
         </td>
@@ -341,8 +423,8 @@
                     <td>F</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td>5</td>
+                    <td>F</td>
                 </tr>
             </table>
         </td>
@@ -363,8 +445,8 @@
                     <td>F</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td>5</td>
+                    <td>F</td>
                 </tr>
             </table>
         </td>
@@ -428,6 +510,8 @@
 #### Notes
 Step 4.1 and 4.2 may be in different order.
 
+Step 7.1 and 7.2 may be in different order.
+
 ### Subtask b
 (Note: The term *router* is used in favor of the term *broker*)
 
@@ -438,8 +522,6 @@ The reason why this problem occurs, is that the network tree is cyclic.
 
 Another, more cirtical problem is, that the subscription message would be flooded
 within the network infinitely because of the cyclic chain (5->4->2->3->5->...).
-This is also the reason why router 5 in the solution above does forward the
-subscription updates of router 3 and 4 only to router 6.
 
 One way to solve this problem is to remove either of the brokers 3 and 4. Another
 way to solve the problem is to create an acyclic tree - e.g. by using the spanning
