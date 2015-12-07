@@ -387,7 +387,7 @@ the subscription must be forwarded to all neighbors (except to the sender itself
 This includes router 4, which does not make sense for the given network mesh.
 The reason why this problem occurs, is that the network tree is cyclic.
 
-Another, more cirtical problem is, that the subscription message would be flooded
+Another, more critical problem is, that the subscription message would be flooded
 within the network infinitely because of the cyclic chain (5->4->2->3->5->...).
 This is also the reason why router 5 in the solution above does forward the
 subscription updates of router 3 and 4 only to router 6.
@@ -395,17 +395,25 @@ subscription updates of router 3 and 4 only to router 6.
 One way to solve this problem is to remove either of the brokers 3 and 4. Another
 way to solve the problem is to create an acyclic tree - e.g. by using the spanning
 tree algorithm. For example, removing the link between node 4 and 5 would result
-in an acyclic tree (but also render node 4 useless)
+in an acyclic tree (but also render node 4 useless). Another approach might be to
+keep a history of the nodes for a path. The filter f reaches node 5 on two different
+paths: 1->2->3 and 1->2->4. If node 5 recognizes it got a filter from two nodes
+and their path share one or more nodes it discards one of the filters. This avoids
+the infinity loop and any duplication.
 
 ### Subtask c
 Yes, if a notification from P is received by router 5, it duplicates the
 notification and sends it to router 3 and 4. They continue to forward the
 notification to router 2 (according to their routing tables) which eventually
-delivers both of them to router 1 and theirfore to subscriber S.
+delivers both of them to router 1 and therefore to subscriber S.
 
 The problem can be solved the same way as described before. Of course, the
 routing tables would require an update afterwards! (e.g. remove entry (4,F) from
-router 5)
+router 5). Another approach is to keep a history of messages that a node reached.
+If a messages reaches a node again it simply discards it. This doesn't prevent
+duplication but an infinity loop. A third approach is to add a TTL to a message.
+This avoids infinity loop but not a duplication and if the TTL is to small a message
+doesn't reach all receivers.
 
 ## Task 2: Addressing
 <table>
@@ -416,34 +424,44 @@ router 5)
     </tr>
     <tr>
         <td><b>Channel based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>Subscriber subscribes to a specific channel. There is no connection between two
+        channels (i.e. no parent/child relationship</td>
+        <td>Publisher publish to channel. All messages of a channel are sent to all 
+            subscribers of that channel</td>
     </tr>
     <tr>
         <td><b>Topic based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>Subscriber subscribes to a specific topic. He receives all messages of the topic,
+        all subtopics and all parent topics</td>
+        <td>Publisher publish message to a topic and it's then published to all subtopics as well.
+        Subscriber of each (sub)topic will get the message (but only once).</td>
     </tr>
     <tr>
         <td><b>Type based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>Subscriber subscribes to a specific type. He receives all messages of that
+        type and all subtypes.</td>
+        <td>Each message is sent to all type subscriptions where the type is equal to the
+        message type or a supertype.</td>
     </tr>
     <tr>
         <td><b>Subject based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>Subscriber subscribes by providing a filter (e.g. regular expression) that filters
+        the messages he receives. The filter is applied just on the subjects.</td>
+        <td>Each filter is applied to the subject of each message. If the return value is true
+        the message will be sent to the receiver.</td>
     </tr>
     <tr>
         <td><b>Content based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>Subscriber subscribes by providing a filter (e.g. regular expression) that filters
+        the messages he receives. The filter is applied on the content.</td>
+        <td>Each filter is applied to the content of each message. If the return value is true
+        the message will be sent to the receiver.</td>
     </tr>
 </table>
 
 ## Task 3: Router Topologies
 (See slide 28 of the TK1-2.2 slideset)
 
-- a) Centralized Server, because of the hierarchie, which ends at a centralized server
+- a) Centralized Server, because of the hierarchy, which ends at a centralized server
 - b) Acyclic Peer-to-Peer, because of the undirected network tree (acyclic)
 - c) Generic Peer-to-Peer, because of the undirected network graph (with cycles)
