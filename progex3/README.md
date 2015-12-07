@@ -1,4 +1,4 @@
-Functional Requirements:
+###Functional Requirements:
 
 - [ ] Provide a (simple) graphical user interface (GUI)
 - [ ] The GUI asks the user name to login on startup.
@@ -6,7 +6,8 @@ Functional Requirements:
 - [ ] Every user can subscribe other users or tags.
 - [ ] JMS coordination: There is no server anymore; each client manages its own blog and exchanges
 the related information with the other clients.
-Non-functional Requirements:
+
+###Non-functional Requirements:
 - [ ] Apache ActiveMQ is already installed in the current version of the VM, which has to
 be used.
 - [ ] Use the pre-installed Apache ActiveMQ Version 5.6.0 as message broker.
