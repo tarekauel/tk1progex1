@@ -224,7 +224,7 @@
     </tr>
 </table>
 
-#### Step 6:
+#### Step 5:
 ![Step 6][state6]
 <table>
   <tr>
@@ -288,7 +288,7 @@
   </tr>
 </table>
 
-#### Step 7.1:
+#### Step 6.1:
 ![Step 7][state7]
 <table>
   <tr>
@@ -314,7 +314,7 @@
   </tr>
 </table>
 
-#### Step 7.2:
+#### Step 6.2:
 ![Step 8][state8]
 <table>
   <tr>
@@ -344,7 +344,7 @@
   </tr>
 </table>
 
-#### Step 9:
+#### Step 7:
 ![Step 9][state9]
 <table>
   <tr>
@@ -510,7 +510,7 @@
 #### Notes
 Step 4.1 and 4.2 may be in different order.
 
-Step 7.1 and 7.2 may be in different order.
+Step 6.1 and 6.2 may be in different order.
 
 ### Subtask b
 (Note: The term *router* is used in favor of the term *broker*)
