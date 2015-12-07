@@ -178,7 +178,7 @@
     </tr>
 </table>
 
-#### Step 4:
+#### Step 4.1:
 ![Step 4][state4]
 
 <table>
@@ -199,7 +199,7 @@
     </tr>
 </table>
 
-#### Step 5:
+#### Step 4.2:
 ![Step 5][state5]
 
 <table>
@@ -226,23 +226,66 @@
 
 #### Step 6:
 ![Step 6][state6]
-
 <table>
-    <tr>
-        <th colspan="2">Router 6</th>
-    </tr>
-    <tr>
-        <td><i>D</i></td>
-        <td><i>Filter</i></td>
-    </tr>
-    <tr>
-        <td>5</td>
-        <td>F</td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-    </tr>
+  <tr>
+      <td>
+          <table>
+              <tr>
+                  <th colspan="2">Router 3</th>
+              </tr>
+              <tr>
+                  <td><i>D</i></td>
+                  <td><i>Filter</i></td>
+              </tr>
+              <tr>
+                  <td>2</td>
+                  <td>F</td>
+              </tr>
+              <tr>
+                  <td>5</td>
+                  <td>F</td>
+              </tr>
+          </table>
+        </td>
+        <td>
+           <table>
+              <tr>
+                  <th colspan="2">Router 4</th>
+              </tr>
+              <tr>
+                  <td><i>D</i></td>
+                  <td><i>Filter</i></td>
+              </tr>
+              <tr>
+                  <td>2</td>
+                  <td>F</td>
+              </tr>
+              <tr>
+                  <td>5;</td>
+                  <td>F</td>
+              </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+              <tr>
+                  <th colspan="2">Router 6</th>
+              </tr>
+              <tr>
+                  <td><i>D</i></td>
+                  <td><i>Filter</i></td>
+              </tr>
+              <tr>
+                  <td>5</td>
+                  <td>F</td>
+              </tr>
+              <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+              </tr>
+          </table>
+      </td>    
+  </tr>
 </table>
 
 #### Final routing tables
@@ -372,12 +415,18 @@
     </tr>
 </table>
 
-[state1]: graphs/graph1.png "Initial State"
-[state2]: graphs/graph2.png "Propagate 1->2"
-[state3]: graphs/graph3.png "Propagate 2->3 and 2->4"
-[state4]: graphs/graph4.png "Propagate 3->5"
-[state5]: graphs/graph5.png "Propagate 4->5"
-[state6]: graphs/graph6.png "Propagate 5->6"
+[state1]: graphs/graph0.png "Initial State"
+[state2]: graphs/graph1.png "Propagate 1->2"
+[state3]: graphs/graph2.png "Propagate 2->3 and 2->4"
+[state4]: graphs/graph3.png "Propagate 3->5"
+[state5]: graphs/graph4.png "Propagate 4->5"
+[state6]: graphs/graph5.png "Propagate 5->6, 5->3 and 5->4"
+[state7]: graphs/graph6.png "Propagate 3->2"
+[state8]: graphs/graph7.png "Propagate 4->2"
+[state9]: graphs/graph8.png "Propagate 2->1"
+
+#### Notes
+Step 4.1 and 4.2 may be in different order.
 
 ### Subtask b
 (Note: The term *router* is used in favor of the term *broker*)
