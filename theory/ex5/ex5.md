@@ -557,8 +557,8 @@ router 5)
     </tr>
     <tr>
         <td><b>Type based</b></td>
-        <td>The subscriber subscribes to a topic.</td>
-        <td>The subscriber will receive all messages published to the topic, all parent topics and all subtopics.</td>
+        <td>The subscriber subscribes to a type.</td>
+        <td>The subscriber will receive all messages published to the type, all parent types and all subtypes.</td>
     </tr>
     <tr>
         <td><b>Subject based</b></td>
