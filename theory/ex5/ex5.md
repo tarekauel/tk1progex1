@@ -548,7 +548,7 @@ router 5)
     <tr>
         <td><b>Channel based</b></td>
         <td>The subscriber subscribes to a channel.</td>
-        <td>The subscriber will receive all messages published to the that channel.</td>
+        <td>The subscriber will receive all messages published to that channel.</td>
     </tr>
     <tr>
         <td><b>Topic based</b></td>
@@ -558,7 +558,7 @@ router 5)
     <tr>
         <td><b>Type based</b></td>
         <td>The subscriber subscribes to a type.</td>
-        <td>The subscriber will receive all messages published to the type, all parent types and all subtypes.</td>
+        <td>The subscriber will receive all messages published to the type and all parent types.</td>
     </tr>
     <tr>
         <td><b>Subject based</b></td>
