@@ -547,28 +547,28 @@ router 5)
     </tr>
     <tr>
         <td><b>Channel based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>The subscriber subscribes to a channel.</td>
+        <td>The subscriber will receive all messages published to the that channel.</td>
     </tr>
     <tr>
         <td><b>Topic based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>The subscriber subscribes to a topic.</td>
+        <td>The subscriber will receive all messages published to the topic, all parent topics and all subtopics.</td>
     </tr>
     <tr>
         <td><b>Type based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>The subscriber subscribes to a topic.</td>
+        <td>The subscriber will receive all messages published to the topic, all parent topics and all subtopics.</td>
     </tr>
     <tr>
         <td><b>Subject based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>The subscriber subscribes with a filter which is either an Regular Expression over Strings(TIB,JEDI) or an SQL92 Querie(JMS).</td>
+        <td>The subscriber will receive messages which fulfil the filter given on the subscription.</td>
     </tr>
     <tr>
         <td><b>Content based</b></td>
-        <td>TODO</td>
-        <td>TODO</td>
+        <td>The subscriber subscribes with an filter expression.</td>
+        <td>The subscriber will receive a message when its content fulfil the filter expression given on subscription.</td>
     </tr>
 </table>
 
