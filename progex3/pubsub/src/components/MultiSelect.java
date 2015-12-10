@@ -1,7 +1,5 @@
 package components;
 
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -31,20 +29,29 @@ public class MultiSelect extends JPanel {
 		super(new WrapLayout(FlowLayout.LEADING));
 		//this.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
+		ActionListener onClearTags = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				removeAllTags();
+			}
+		};
 		ActionListener onAddTag = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				addTag(textField.getText());
 			}
 		};
+		JButton clearTagsBtn = new JButton("Clear tags");
 		JButton addTagBtn = new JButton("Add tag");
 		this.textField = new JTextField(10);
 		this.selections = new HashMap<String, TagComponent>();
 		
+		clearTagsBtn.addActionListener(onClearTags);
 		addTagBtn.addActionListener(onAddTag);
 		this.textField.addActionListener(onAddTag);
 		
-		this.add(addTagBtn);
+		this.add(clearTagsBtn);
+		//this.add(addTagBtn);
 		this.add(this.textField);
 	}
 	
@@ -70,6 +77,16 @@ public class MultiSelect extends JPanel {
 			this.selections.remove(tag);
 			this.remove(t);
 			this.revalidate();
+		}
+	}
+	
+	private void removeAllTags() {
+		if (selections.size() > 0) {
+			for (Map.Entry<String, TagComponent> e : selections.entrySet()) {
+				this.remove(e.getValue());
+			}
+			this.revalidate();
+			this.selections.clear();
 		}
 	}
 	
