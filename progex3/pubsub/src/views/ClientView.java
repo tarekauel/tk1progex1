@@ -4,9 +4,10 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,24 +16,43 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-import components.MultiSelect;
+import components.TagSelect;
 import controllers.ClientControllerInterface;
 
 public class ClientView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private ClientControllerInterface ctrl;
+	private JTextArea message;
+	private JTextArea receiveLog;
+	private TagSelect messageTags;
+	private TagSelect subscribedTags;
 	private JButton sendMsgBtn;
 	
 	
 	public ClientView(ClientControllerInterface ctrl) {
 		this.ctrl = ctrl;
+		this.message = new JTextArea(2, 10);
+		this.receiveLog = new JTextArea(2, 10);
+		this.receiveLog.setEditable(false);
+		this.receiveLog.setBackground(Color.LIGHT_GRAY);
+		this.messageTags = new TagSelect(false);
+		this.subscribedTags = new TagSelect(true);
 		this.sendMsgBtn = new JButton("Publish Message");
+		this.sendMsgBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ClientView.this.ctrl.onMessageSend(
+						ClientView.this.message.getText(),
+						ClientView.this.messageTags.getTags());
+				ClientView.this.message.setText("");
+				ClientView.this.messageTags.removeAllTags();
+			}
+		});
 		
 		this.initGui();
 		//this.pack();
 		this.setVisible(true);
-		//this.chooseNameDialog();
 	}
 	
 	private void initGui() {
@@ -44,7 +64,7 @@ public class ClientView extends JFrame {
 		c.insets = new Insets(3, 3, 3, 3);
 		
 		this.setLayout(new GridBagLayout());
-		this.setSize(500, 600);
+		this.setSize(900, 600);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		c.gridx = 0;
@@ -85,12 +105,11 @@ public class ClientView extends JFrame {
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		c.insets.top = 3;
-		publishPanel.add(new JTextArea(2, 10), c);
+		publishPanel.add(this.message, c);
 		
-		MultiSelect messageTags = new MultiSelect();
 		c.gridy = 1;
 		c.weighty = 0.0;
-		publishPanel.add(messageTags, c);
+		publishPanel.add(this.messageTags, c);
 		
 		c.gridy = 2;
 		c.weighty = .0;
@@ -123,32 +142,39 @@ public class ClientView extends JFrame {
 		subscribePanel.add(subscriptionTagsLabel, c);
 		
 		// Right column
-		JTextArea messages = new JTextArea(1, 10);
-		messages.setEditable(false);
-		messages.setBackground(Color.LIGHT_GRAY);
 		c.gridx = 1;
 		c.gridy = 0;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		c.insets.top = 3;
-		subscribePanel.add(messages, c);
+		subscribePanel.add(this.receiveLog, c);
 		
-		MultiSelect subscriptionTags = new MultiSelect();
 		c.gridy = 1;
 		c.weightx = .0;
 		c.weighty = .0;
-		subscribePanel.add(subscriptionTags, c);
+		subscribePanel.add(this.subscribedTags, c);
+		
+		c.gridy = 2;
+		subscribePanel.add(new JLabel("Prepend '@' to a tag to subscribe to users! (Case sensitive!)"), c);
 		
 		return subscribePanel;
 	}
 	
-	private void chooseNameDialog() {
+	public String chooseNameDialog() {
 		String name = JOptionPane.showInputDialog(
 				this,
 				"Your Name", "Please provide a Name",
 				JOptionPane.PLAIN_MESSAGE);
 		
 		this.setTitle("Microblog - Logged in as " + name);
-		this.ctrl.setName(name);
+		return name;
+	}
+	
+	public TagSelect getSubscribedTags() {
+		return this.subscribedTags;
+	}
+	
+	public void appendToMessageLog(String text) {
+		this.receiveLog.append(text);
 	}
 }

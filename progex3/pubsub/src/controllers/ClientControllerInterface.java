@@ -1,5 +1,5 @@
 package controllers;
 
 public interface ClientControllerInterface {
-	public void setName(String name);
+	public void onMessageSend(String message, String[] tags);
 }
