@@ -271,7 +271,7 @@ T<sub>S</sub> tables of routers after subscription of S1 was forwarded through t
 Flow of S2 subscription forwardings:
 ![Subscription S2 forwarding][subscription_flow2]
 
-T<sub>S</sub> tables of routers after subscription of S1 was forwarded through the network:
+T<sub>S</sub> tables of routers after subscription of S2 was forwarded through the network:
 <table>
     <tr>
         <td>
