@@ -446,7 +446,7 @@ Flow of notification forwardings:
 We assume messages about the currently running game for this scenario (such as kill-death-ratio). A 
 producer can not announce the messages that it will sent (no scores or similar figures that might be
 used as filter). Therefore a subscription based routing is superior. Routing with advertisements would
-require that the produce sends a subscription for approximately each message because the game scores
+require that the produce sends an advertisement for approximately each message because the game scores
 will change for every game. All in all advertisement is only useful if a meaningful filter is advertised.
 
 
