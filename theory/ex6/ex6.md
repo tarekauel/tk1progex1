@@ -398,11 +398,50 @@ Steps **4 and 5** may occur in arbitrary order.
 Flow of notification forwardings:
 ![Notification flow][notification_flow]
 
-[comment]: <> (Use http://mdaines.github.io/viz.js/ to modify graphs)
 [advertisement_flow]: graphs/advertisement.png "Advertisement flow"
 [subscription_flow1]: graphs/subscriptionS1.png "S1 subscription flow"
 [subscription_flow2]: graphs/subscriptionS2.png "S2 subscription flow"
 [notification_flow]: graphs/notification.png "Notification flow"
 
 ## Task 2: Routing in Publish/Subscribe Systems
-TODO
+### Task 2.1
+<table>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Pros</th>
+        <th>Cons</th>
+    </tr>
+    <tr>
+        <td><strong>Routing with Subscriptions</strong></td>
+        <td>
+            <ul>
+                <li>Brokers must not maintain a seperate table for advertisements</li>
+                <li>Publisher can send arbitary notifications</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Subscriptions are forwarded througout the whole network (Flooding)</li>
+                <li>Routing tabes for subscriptions are complex to manage as they are used for potentially a lot of subscriptions.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Routing with Advertisements</strong></td>
+        <td>
+            <ul>
+                <li>More efficient routing of subscriptions. They are only forwarded to destinations where those type of notifications are produced.</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Publishers should know in advance what type of notifications they are producing</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+### Task 2.2
+In general, "Routing with Advertisements" is more suiteable in applications where the producers know the content/type of the notifications they are producing in advance. This mechanism makes sense in appliations that have a wide variety of message types.
+
+In turn "Routing with Subscriptions" is more suiteable in networks where publishers, in general, dont know the type of messages that they are producing in advance. Another scenario where this type of routing makes sense is when pubishers producing a lot of distinct messages, i.e. the messages are usally covered by a distinct filters/subscriptions.
