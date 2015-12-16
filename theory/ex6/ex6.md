@@ -277,7 +277,7 @@ T<sub>S</sub> tables of routers after subscription of S1 was forwarded through t
 Flow of S2 subscription forwardings:
 ![Subscription S2 forwarding][subscription_flow2]
 
-T<sub>S</sub> tables of routers after subscription of S1 was forwarded through the network:
+T<sub>S</sub> tables of routers after subscription of S2 was forwarded through the network:
 <table>
     <tr>
         <td>
@@ -411,6 +411,7 @@ Flow of notification forwardings:
 
 ## Task 2: Routing in Publish/Subscribe Systems
 ### Task 2.1
+#### General considerations
 <table>
     <tr>
         <th>&nbsp;</th>
@@ -442,10 +443,18 @@ Flow of notification forwardings:
         <td>
             <ul>
                 <li>Publishers should know in advance what type of notifications they are producing</li>
+                <li>Overhead big if a producer sends a message only once</li>
             </ul>
         </td>
     </tr>
 </table>
+#### Matchmaking
+We assume messages about the currently running game for this scenario (such as kill-death-ratio). A 
+producer can not announce the messages that it will sent (no scores or similar figures that might be
+used as filter). Therefore a subscription based routing is superior. Routing with advertisements would
+require that the produce sends an advertisement for approximately each message because the game scores
+will change for every game. All in all advertisement is only useful if a meaningful filter is advertised.
+
 
 ### Task 2.2
 In general, "Routing with Advertisements" is more suiteable in applications where the producers know the content/type of the notifications they are producing in advance. This mechanism makes sense in appliations that have a wide variety of message types.
