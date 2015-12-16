@@ -23,5 +23,6 @@ digraph G {
         6 -> S2 [label="sub(F)"];
         4 -> 6 [label="sub(F)"];
         3 -> 4 [label="sub(F)"];
+        1 -> 3 [label="sub(F)"];
     }
 }

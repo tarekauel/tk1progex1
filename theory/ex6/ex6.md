@@ -266,7 +266,13 @@ T<sub>S</sub> tables of routers after subscription of S1 was forwarded through t
     * Forward subscription to 3.
 * Step 2.3:
   * Router 3 already has the subscription in its T<sub>S</sub> table
-    * No forwarding required
+    * Algorithm *could* stop here - but on the slides there is no such condition.
+  * Lookup (D, F) pairs in T<sub>A</sub>: Found pair (1, F)
+    * Forward subscription to 1.
+* Step 2.4:
+  * Router 1 already has the subscription in its T<sub>S</sub> table
+  * Lookup matching (D, F) pairs in T<sub>A</sub>: None found
+    * No further forwarding.
 
 Flow of S2 subscription forwardings:
 ![Subscription S2 forwarding][subscription_flow2]
