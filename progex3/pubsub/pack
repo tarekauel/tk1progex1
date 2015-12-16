@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+tar -cvf tk1-progex3.tar ./src/* ./lib/* ./res/* ./build.xml

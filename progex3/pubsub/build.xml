@@ -1,0 +1,43 @@
+<project default="all">
+
+    <!-- This is only an idea for your script, you can build your own! -->
+    <description>
+        TK1 - Programmieraufgabe 3
+    </description>
+
+    <target name="all" depends="run"/>
+
+    <target name="clean">
+        <delete dir="out"/>
+        <delete file="Client.jar"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="out"/>
+        <javac srcdir="src" destdir="out" includeantruntime="false">
+            <classpath>
+                <pathelement path="${classpath}"/>
+                <fileset dir="lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar destfile="Client.jar" basedir="out">
+            <fileset dir="res"/>
+            <zipgroupfileset dir="lib" includes="**/*.jar"/>
+            <manifest>
+                <attribute name="Main-Class" value="controllers.ClientImpl"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <parallel>
+            <java jar="Client.jar" fork="true"/>
+            <java jar="Client.jar" fork="true"/>
+        </parallel>
+    </target>
+</project>
