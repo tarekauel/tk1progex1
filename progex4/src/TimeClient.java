@@ -6,15 +6,15 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TimeClient {
-	private static String hostUrl = "127.0.0.1";
-	private static int PORT = 27780;
-	private Double minD;
-	private NTPRequest minNTPrequest;
-	private Socket socket;
+    private static String hostUrl = "127.0.0.1";
+    private static int PORT = 27780;
+    private Double minD;
+    private NTPRequest minNTPrequest;
+    private Socket socket;
 
-	public TimeClient() {
-		try {
-			for (int i = 0; i < 10; i++) {
+    public TimeClient() {
+        try {
+            for (int i = 0; i < 10; i++) {
                 // Setup connection
                 socket = new Socket(InetAddress.getByName(hostUrl), PORT);
                 socket.setTcpNoDelay(true);
@@ -48,7 +48,7 @@ public class TimeClient {
         }
     }
 
-	private void sendNTPRequest(NTPRequest request) {
+    private void sendNTPRequest(NTPRequest request) {
         // In addition, implement a random delay between 10ms and 100ms on server and client side to simulate the
         // communication more realistically (this is the case, when both client and server are started on the same computer).
         threadSleep(ThreadLocalRandom.current().nextLong(10, 101));
@@ -61,15 +61,15 @@ public class TimeClient {
         }
     }
 
-	private void threadSleep(long millis) {
-		try {
-			Thread.sleep(millis);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+    private void threadSleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public static void main(String[] args) {
-		new TimeClient();
-	}
+    public static void main(String[] args) {
+        new TimeClient();
+    }
 }

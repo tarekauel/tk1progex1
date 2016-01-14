@@ -7,18 +7,18 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TimeServer {
-	private static int PORT = 27780;
-	private ServerSocket serverSocket;
+    private static int PORT = 27780;
+    private ServerSocket serverSocket;
 
     /**
      * Starts a new TimeServer, listening on port 27780.
      *
      * Incoming requests are dispatched to NTPRequestHandler.
      */
-	public TimeServer() {
-		try {
-			serverSocket = new ServerSocket(PORT);
-			System.out.println("Server started on port: " + PORT);
+    public TimeServer() {
+        try {
+            serverSocket = new ServerSocket(PORT);
+            System.out.println("Server started on port: " + PORT);
 
             while (true) {
                 // Block until new connection arises and handle new connections inside a separate thread
@@ -27,42 +27,42 @@ public class TimeServer {
                 clientSocket.setTcpNoDelay(true);
                 new Thread(new NTPRequestHandler(clientSocket, rcvRequest)).start();
             }
-		} catch (IOException e) {
-			e.printStackTrace();
-			try {
-				serverSocket.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
+        } catch (IOException e) {
+            e.printStackTrace();
+            try {
+                serverSocket.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
 
-	}
+    }
 
-	private void threadSleep(long millis) {
-		try {
-			Thread.sleep(millis);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+    private void threadSleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public static void main(String[] args) {
-		new TimeServer();
-	}
+    public static void main(String[] args) {
+        new TimeServer();
+    }
 
-	private class NTPRequestHandler implements Runnable {
-		private Socket client;
+    private class NTPRequestHandler implements Runnable {
+        private Socket client;
         private long requestBegin;
         private ObjectInputStream ois;
         private ObjectOutputStream oos;
 
-		public NTPRequestHandler(Socket client, long rcv) {
-			this.client = client;
+        public NTPRequestHandler(Socket client, long rcv) {
+            this.client = client;
             this.requestBegin = rcv;
-		}
+        }
 
-		@Override
-		public void run() {
+        @Override
+        public void run() {
             try {
                 ois = new ObjectInputStream(client.getInputStream());
                 oos = new ObjectOutputStream(client.getOutputStream());
@@ -78,7 +78,7 @@ public class TimeServer {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-		}
+        }
 
         /**
          * Sends the passed NTPRequest to the client after a random delay of 10-100 ms.
@@ -94,5 +94,5 @@ public class TimeServer {
                 e.printStackTrace();
             }
         }
-	}
+    }
 }
