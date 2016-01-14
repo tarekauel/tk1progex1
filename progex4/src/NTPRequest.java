@@ -3,10 +3,10 @@ import java.io.Serializable;
 
 public class NTPRequest implements Serializable{
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public long t1;
 	public long t2;
 	public long t3;
@@ -14,10 +14,8 @@ public class NTPRequest implements Serializable{
 	public double o;
 	public double d;
 
-	public NTPRequest() {
-	
-	}
-	
+	public NTPRequest() { }
+
 	public long getT1() {
 		return t1;
 	}
@@ -42,9 +40,9 @@ public class NTPRequest implements Serializable{
 	public void setT4(long t4) {
 		this.t4 = t4;
 	}
-	
+
 	public void calculateOandD() {
-		////
+        d = (t4 - t1) - (t3 - t2);
+        o = 0;
 	}
-	
 }
