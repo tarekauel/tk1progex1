@@ -13,10 +13,10 @@ original graph is more easy this way).
 ## Task 2: LOCAL Model
 First argument: **Inherently non-local Problem**  
 A problem is called inherently non-local if the output of a node *v* depends on
-the initial input of a node outside of G<sup>k</sup>(v). The algorithm used to
+the initial input of a node outside of G<sub>k</sub>(v). The algorithm used to
 build a spanning tree in a network is such a problem because a node *v* has only
-a limited view on the network (as given by G<sup>k</sup>(v)) for a given k.  
-For example, let k=2 and G<sup>2</sup>(1) be the 2-hop neighborhood graph from
+a limited view on the network (as given by G<sub>k</sub>(v)) for a given k.  
+For example, let k=2 and G<sub>2</sub>(1) be the 2-hop neighborhood graph from
 task 1. From the perspective of node 1, the removal of the edge between node 3
 and 4 would encapsulate node 4, but there is another edge that connects node 4
 to the network which is not seen by node 1.  
@@ -27,7 +27,7 @@ solved the problem in general.
 Second argument: **Impossibility of Symmetry Breaking**  
 Because the LOCAL model is deterministic, a given distributed algorithm produces
 the same result on nodes which have an equal view on the network, i.e. there
-neighborhood graph G<sup>k</sup> looks alike.  
+neighborhood graph G<sub>k</sub> looks alike.  
 For exmaple, this problem comes into play for symmetric network graphs (e.g. n-cycle).
 A distributed algorithm which is used to self-assign an address for each node in
 the network would assign each node the same address because they all have the
