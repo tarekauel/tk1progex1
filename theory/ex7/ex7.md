@@ -22,12 +22,12 @@ and 4 would encapsulate node 4, but there is another edge that connects node 4
 to the network which is not seen by node 1.  
 In the example above, the problem could be solved for k=3. However, for a larger
 network k=3 would also be insufficient and there is no upper bound for k which 
-solved the problem in general.
+solves the problem in general.
 
 Second argument: **Impossibility of Symmetry Breaking**  
 Because the LOCAL model is deterministic, a given distributed algorithm produces
-the same result on nodes which have an equal view on the network, i.e. there
-neighborhood graph G<sup>k</sup> looks alike.  
+the same result on nodes that have an equal view on the network, i.e. their
+neighborhood graph G<sub>k</sub> looks alike.  
 For exmaple, this problem comes into play for symmetric network graphs (e.g. n-cycle).
 A distributed algorithm which is used to self-assign an address for each node in
 the network would assign each node the same address because they all have the
