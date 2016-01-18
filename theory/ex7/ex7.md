@@ -40,7 +40,7 @@ circles with radius of d(A,B) that starts from A and B.
 
 ![RNG](RNG.png "RNG")
 
-This algorithm can never add an edge that cross another edge, because there would
-be always another in the intersection. This property is important for the 
+This algorithm can never add an edge that crosses another edge, because there would
+be always another node in the intersection. This property is important for the 
 Greedy Perimeter Stateless Routing because if a graph contains crossing edges it
-can stay in a inifinty loop while applying the right-hand rule.
+can stay in an infinity loop while applying the right-hand rule.
