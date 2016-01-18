@@ -34,7 +34,7 @@ the network would assign each node the same address because they all have the
 same view on the network. 
 
 ## Task 3: Topology Control
-Relative Neighborhood Graph (RNG) is a topology control algorithm. A from node
+Relative Neighborhood Graph (RNG) is a topology control algorithm. An edge from node
 A to node B is only added if no node is in the intersection of the two 
 circles with radius of d(A,B) that starts from A and B.
 ![RNG](RNG.png "RNG")
