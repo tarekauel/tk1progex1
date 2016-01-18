@@ -28,9 +28,17 @@ Second argument: **Impossibility of Symmetry Breaking**
 Because the LOCAL model is deterministic, a given distributed algorithm produces
 the same result on nodes that have an equal view on the network, i.e. their
 neighborhood graph G<sub>k</sub> looks alike.  
-For exmaple, this problem comes into play for symmetric network graphs (e.g. n-cycle).
+For example, this problem comes into play for symmetric network graphs (e.g. n-cycle).
 A distributed algorithm which is used to self-assign an address for each node in
 the network would assign each node the same address because they all have the
 same view on the network. 
 
 ## Task 3: Topology Control
+Relative Neighborhood Graph (RNG) is a topology control algorithm. A from node
+A to node B is only added if no node is in the intersection of the two 
+circles with radius of d(A,B) that starts from A and B.
+![RNG](RNG.png "RNG")
+This algorithm can never add an edge that cross another edge, because there would
+be always another in the intersection. This property is important for the 
+Greedy Perimeter Stateless Routing because if a graph contains crossing edges it
+can stay in a inifinty loop while applying the right-hand rule.
