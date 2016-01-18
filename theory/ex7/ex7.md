@@ -37,7 +37,9 @@ same view on the network.
 Relative Neighborhood Graph (RNG) is a topology control algorithm. An edge from node
 A to node B is only added if no node is in the intersection of the two 
 circles with radius of d(A,B) that starts from A and B.
+
 ![RNG](RNG.png "RNG")
+
 This algorithm can never add an edge that cross another edge, because there would
 be always another in the intersection. This property is important for the 
 Greedy Perimeter Stateless Routing because if a graph contains crossing edges it
