@@ -23,7 +23,7 @@ i.e. for arbitrary large networks.
 Second argument: **Impossibility of Symmetry Breaking**  
 As a general observation, the output of an algorithm in the LOCAL Model does
 depend only on the input available within a constant-radius neighbourhood
-(G_<sub>k</sub>(n)) of the node. This makes the LOCAL model deterministic and a
+(G<sub>k</sub>(n)) of the node. This makes the LOCAL model deterministic and a
 given distributed algorithm produces the same result on nodes that have an equal
 view on the network, i.e. their neighborhood graph G<sub>k</sub> looks alike.  
 For example, this problem comes into play for symmetric network graphs
