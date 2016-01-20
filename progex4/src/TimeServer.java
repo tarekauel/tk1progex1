@@ -3,7 +3,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TimeServer {
@@ -23,9 +22,9 @@ public class TimeServer {
             while (true) {
                 // Block until new connection arises and handle new connections inside a separate thread
                 Socket clientSocket = serverSocket.accept();
-                long rcvRequest = System.currentTimeMillis();
+                // --- TCP handshake is over ---
                 clientSocket.setTcpNoDelay(true);
-                new Thread(new NTPRequestHandler(clientSocket, rcvRequest)).start();
+                new Thread(new NTPRequestHandler(clientSocket)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,24 +51,25 @@ public class TimeServer {
 
     private class NTPRequestHandler implements Runnable {
         private Socket client;
-        private long requestBegin;
         private ObjectInputStream ois;
         private ObjectOutputStream oos;
 
-        public NTPRequestHandler(Socket client, long rcv) {
+        public NTPRequestHandler(Socket client) {
             this.client = client;
-            this.requestBegin = rcv;
         }
 
         @Override
         public void run() {
             try {
+                // This call blocks, until data arrives on the wire.
                 ois = new ObjectInputStream(client.getInputStream());
+                // -- Received data from client ---
+                long rcvRequest = getSystemTime();
                 oos = new ObjectOutputStream(client.getOutputStream());
 
                 NTPRequest ntpRequest = (NTPRequest) ois.readObject();
-                ntpRequest.setT2(requestBegin);
-                ntpRequest.setT3(System.currentTimeMillis());
+                ntpRequest.setT2(rcvRequest);
+                ntpRequest.setT3(getSystemTime());
                 sendNTPAnswer(ntpRequest);
 
                 client.close();
@@ -78,6 +78,13 @@ public class TimeServer {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+        }
+
+        /**
+         * @return System time for the server in milliseconds - with 1200 ms offset
+         */
+        private long getSystemTime() {
+            return System.currentTimeMillis() + 1200;
         }
 
         /**

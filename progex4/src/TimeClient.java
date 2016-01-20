@@ -2,13 +2,12 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TimeClient {
     private static String hostUrl = "127.0.0.1";
     private static int PORT = 27780;
-    private Double minD;
+    private Double minD = Double.MAX_VALUE;
     private NTPRequest minNTPrequest;
     private Socket socket;
 
@@ -33,12 +32,23 @@ public class TimeClient {
 
                 // Calculate offset to remote clock and network delay.
                 ntpRequest.calculateOandD();
-                System.out.println(String.format("Round %d: Offset: %.4f ms, Delay: %.4f ms", i, ntpRequest.o, ntpRequest.d));
+                System.out.println(String.format("Round %d: Est. offset: %.4f ms, Delay: %.4f ms", i + 1, ntpRequest.o, ntpRequest.d));
+
+                // Remember the NTP Request with the lowest delay
+                if (ntpRequest.d < minD) {
+                    minD = ntpRequest.d;
+                    minNTPrequest = ntpRequest;
+                }
 
                 // Wait 300ms between two measurements.
                 socket.close();
                 this.threadSleep(300);
             }
+
+            System.out.println("Time difference (est. offset): " + minNTPrequest.o + ", " +
+                    "Accuracy: " + (minNTPrequest.o - minNTPrequest.d / 2) +
+                    " <= o (real offset) <= " +
+                    (minNTPrequest.o + minNTPrequest.d / 2));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
