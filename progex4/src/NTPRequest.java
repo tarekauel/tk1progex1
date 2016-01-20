@@ -42,7 +42,7 @@ public class NTPRequest implements Serializable{
     }
 
     public void calculateOandD() {
-        d = (t4 - t1) - (t3 - t2);
-        o = 0;
+        d = (t2 - t1) + (t4 - t3); // t + t' (Real transmission delay without clock offset)
+        o = 0.5 * (t2 - t1 + t3 - t4); // Offset Estimate, including an error less or equal to 0.5 * (t' - t)
     }
 }
