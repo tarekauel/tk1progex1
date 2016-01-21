@@ -18,7 +18,7 @@ d) The transmission of a message between C and S takes at least 4ms (for each di
 A minimum transmission delay of 4ms implies...:
 
 - ... no change of the answer in a)
-- ... a smaller error (=> higher accuracy): `accuracy = ±0.5 * (RTT - 2 * min_trans_delay) = ±0.5 * (18 - 8) = ±5ms`
+- ... a smaller error (=> higher accuracy): `accuracy = ±0.5 × (RTT - 2 × min_trans_delay) = ±0.5 × (18 - 8) = ±5ms`
 - ... no change of the answer in c)
 
 ## Task 3: Time synchronization using NTP
