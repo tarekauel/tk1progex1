@@ -40,8 +40,8 @@ public class TimeClient {
                     minNTPrequest = ntpRequest;
                 }
 
-                // Wait 300ms between two measurements.
                 socket.close();
+                // Wait 300ms between two measurements.
                 this.threadSleep(300);
             }
 

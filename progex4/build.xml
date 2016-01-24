@@ -1,0 +1,47 @@
+<project default="all">
+
+    <!-- This is only an idea for your script, you can build your own! -->
+    <description>
+        TK1 - Programmieraufgabe 4
+    </description>
+
+    <target name="all" depends="run"/>
+
+    <target name="clean">
+        <delete dir="out"/>
+        <delete file="TimeClient.jar"/>
+        <delete file="TimeServer.jar"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="out"/>
+        <javac srcdir="src" destdir="out" includeantruntime="false">
+            <classpath>
+                <pathelement path="${classpath}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar destfile="TimeClient.jar" basedir="out">
+            <manifest>
+                <attribute name="Main-Class" value="TimeClient"/>
+            </manifest>
+        </jar>
+        <jar destfile="TimeServer.jar" basedir="out">
+            <manifest>
+                <attribute name="Main-Class" value="TimeServer"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <parallel>
+            <java jar="TimeServer.jar" fork="true"/>
+            <sequential>
+                <sleep seconds="1" />
+                <java jar="TimeClient.jar" fork="true"/>
+            </sequential>
+        </parallel>
+    </target>
+</project>
