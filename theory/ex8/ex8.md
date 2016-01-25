@@ -12,7 +12,12 @@ b) How accurate is the time estimate of C in relation to S?
 The time estimate of C (see next lines) has an accuracy of `±RTT/2 = ±18/2 = ±9ms`,
 
 c) Which time should C set to its local clock?  
-To the time it received from S, increased by half of the duration of the RTT: `newtime = 15:38:36.580 + 0.009 = 15:38:36.589`
+In order to set the local clock according to christians algorithm, the table is missing a column of
+when the packages were received, because the client needs to calculate the time that has past since
+the arrival of the response of S. Assuming that this time is given, the local time can be set by
+calculating the time-difference `td_i`, where i corresponds to the table entry (i = 1,2,3). The local
+clock can be set to the time that C received from S, increased by the time difference `td_2` and half
+of the duration of the RTT: `newtime = 15:38:36.580 + 0.009 + td_2 = 15:38:36.589 + td_2`
 
 d) The transmission of a message between C and S takes at least 4ms (for each direction). How does this change the answers for a-c?  
 A minimum transmission delay of 4ms implies...:
