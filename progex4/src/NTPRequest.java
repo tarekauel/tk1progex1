@@ -7,10 +7,10 @@ public class NTPRequest implements Serializable{
      */
     private static final long serialVersionUID = 1L;
 
-    public long t1;
-    public long t2;
-    public long t3;
-    public long t4;
+    public long t1; // T_i - 3
+    public long t2; // T_i - 2
+    public long t3; // T_i - 1
+    public long t4; // T_i
     public double o;
     public double d;
 
