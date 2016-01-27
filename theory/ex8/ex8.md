@@ -3,6 +3,29 @@
 <p align="right">Tarek Auel, Markus Schanz</p>
 
 ## Task 1: Correctness in distributed Systems
+**Safety Property** 
+Safety properties describe predicates that are _always_ true throughout computation in distributed systems. It can be
+paraphrased as trying to make sure that _bad things_ cannot happen or that they are at least
+identified within a finite number of steps.
+
+A typical example is deadlock freedom. This property ensures that there is always at least one
+process that can execute the next instruction. The following pictures shows three processes (1, 2, 3)
+ and three resources (A, B, C). An arrow from a resource to a process does mean that this resource
+ is assigned to the process. An arrow from a process to a resource does mean that the process requested
+ the resource and it does wait for it. Even though 2 and 3 are blocked, 1 can execute, because it
+ does not wait for a resource. The system is deadlock free and safety property is hold.
+ 
+ ![Deadlock free system](A.png "deadlock free system")
+ 
+ The next pictures shows a circular wait situation. 1 waits for C, 2 for A and 3 for B. There is no
+ process in the system that can do any progress. The deadlock property is violated.
+ 
+ ![System with a deadlock](B.png "System with a deadlock")
+ 
+**Liveness Property**
+The liveness property guarantees the progress of a computation in a distributed system.
+However, it does not state _when_ the computation terminates but rather guarantees the termination
+in a _finite number_ of steps.
 
 ## Task 2: Time synchronization using the algorithm by Christian
 a) Which entry in the depicted table should C select to set its local clock?  
