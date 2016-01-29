@@ -13,10 +13,10 @@ P<sub>1</sub> receives the marker message and saves its local state immediately.
 P<sub>1</sub> receives the marker message and saves its local state immediately. It then sends a regular message to P<sub>2</sub>, followed by the marker message. The regular message is not part of the local snapshot, as it happens after the receiving of the marker message. Now P<sub>2</sub> receives the regular message first, followed by the marker message. It creates a local snapshot, consisting of all previous events, including the receiving of the regular message from P<sub>1</sub>. After the algorithm finishes, the global snapshot that is created out of the local snapshots is inconsistent because there exists an receiving event for a message without a corresponding sending event.
 
 ### b)
-*Variant 1:*  
+**Variant 1:**  
 ![Variant 1](snapshot_var_1.png "Variant 1")
 
-**States**:  
+*States*:  
 <table>
     <tr>
         <td>S_P<sub>1</sub>: &lt;&gt;</td>
@@ -35,10 +35,10 @@ P<sub>1</sub> receives the marker message and saves its local state immediately.
     </tr>
 </table>
 
-*Variant 2:*  
+**Variant 2:**  
 ![Variant 2](snapshot_var_2.png "Variant 2")
 
-**States**:  
+*States*:  
 <table>
     <tr>
         <td>S_P<sub>1</sub>: &lt;&gt;</td>
