@@ -35,6 +35,28 @@ P<sub>1</sub> receives the marker message and saves its local state immediately.
     </tr>
 </table>
 
+*Variant 2:*  
+![Variant 2](snapshot_var_2.png "Variant 2")
+
+**States**:  
+<table>
+    <tr>
+        <td>S_P<sub>1</sub>: &lt;&gt;</td>
+        <td>C(P<sub>2</sub>, P<sub>1</sub>): &lt;m<sub>1</sub>, m<sub>2</sub>&gt;</td>
+        <td>C(P<sub>3</sub>, P<sub>1</sub>): &lt;m<sub>6</sub>&gt;</td>
+    </tr>
+    <tr>
+        <td>S_P<sub>2</sub>: &lt;m<sub>1</sub>, m<sub>2</sub>, m<sub>3</sub>&gt;</td>
+        <td>C(P<sub>1</sub>, P<sub>2</sub>): &lt;&gt;</td>
+        <td>C(P<sub>3</sub>, P<sub>2</sub>): &lt;m<sub>4</sub>&gt;</td>
+    </tr>
+    <tr>
+        <td>S_P<sub>3</sub>: &lt;m<sub>3</sub>, m<sub>4</sub>&gt;</td>
+        <td>C(P<sub>1</sub>, P<sub>3</sub>): &lt;&gt;</td>
+        <td>C(P<sub>2</sub>, P<sub>3</sub>): &lt;&gt;</td>
+    </tr>
+</table>
+
 ## Task 2: Snapshot vs. Actual Program Flow
 ### a)
 ### b)
