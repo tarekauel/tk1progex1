@@ -59,4 +59,9 @@ P<sub>1</sub> receives the marker message and saves its local state immediately.
 
 ## Task 2: Snapshot vs. Actual Program Flow
 ### a)
+Sys' = s<sub>m1</sub>, s<sub>m2</sub>, r<sub>m1</sub>, r<sub>m2</sub>  
+pre-snap: s<sub>m1</sub>  
+post-snap: s<sub>m2</sub>, r<sub>m1</sub>, r<sub>m2</sub>  
+
 ### b)
+![Communication flow](communication_flow.png "Communication flow")
