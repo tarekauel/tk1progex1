@@ -4,7 +4,7 @@
 
 ## Task 1: ‘Snapshot’-Algorithm of Chandy and Lamport
 ### a)
-Illustration 1.I is correct, as P<sub>1</sub> forwards the marker message signal immediately to P<sub>2</sub>.
+Illustration 1.I is correct, as P<sub>1</sub> forwards the marker message to P<sub>2</sub> after recording its state and before sending any other message.
 
 *Example for figure 1.I:*  
 P<sub>1</sub> receives the marker message and saves its local state immediately. It forwards the marker message to process P<sub>2</sub>, followed by a regular message. P<sub>2</sub> receives the marker message first and creates a local snapshot. It then receives the regular message which is not part of the local snapshot, as it is received by P<sub>1</sub> after the receiving the marker message. For both processes the message is not part of the snapshot, so the snapshot itself is consistent.
@@ -15,3 +15,5 @@ P<sub>1</sub> receives the marker message and saves its local state immediately.
 ### b)
 
 ## Task 2: Snapshot vs. Actual Program Flow
+### a)
+### b)
