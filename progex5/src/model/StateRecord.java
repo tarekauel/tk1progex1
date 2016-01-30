@@ -1,6 +1,6 @@
 package model;
 
-import packets.Transfer;
+import model.packets.Transfer;
 
 import java.io.Serializable;
 import java.util.HashSet;

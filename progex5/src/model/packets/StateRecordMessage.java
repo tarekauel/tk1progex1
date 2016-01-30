@@ -1,4 +1,4 @@
-package packets;
+package model.packets;
 
 import model.Partner;
 import model.StateRecord;

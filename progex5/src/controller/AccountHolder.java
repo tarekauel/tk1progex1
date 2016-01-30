@@ -3,10 +3,10 @@ package controller;
 import model.Account;
 import model.Partner;
 import model.StateRecord;
-import packets.Message;
-import packets.Snapshot;
-import packets.StateRecordMessage;
-import packets.Transfer;
+import model.packets.Message;
+import model.packets.Snapshot;
+import model.packets.StateRecordMessage;
+import model.packets.Transfer;
 import view.AccountView;
 
 import java.awt.event.ActionEvent;
