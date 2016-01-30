@@ -1,16 +1,13 @@
 package packets;
 
+import model.Partner;
+
 import java.io.Serializable;
 
-abstract public class Message implements Serializable {
-    public enum MessageType {
-        SNAPSHOT,
-        TRANSFER
-    }
+public interface Message extends Serializable {
 
-    public MessageType $msgType;
+    Partner getReceiver();
 
-    public Message(MessageType $msgType) {
-        this.$msgType = $msgType;
-    }
+    Partner getSender();
+
 }
