@@ -199,7 +199,7 @@ public class AccountHolder implements ActionListener {
                     Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 1750));
                     if (status) {
                             Transfer t = new Transfer(
-                                ThreadLocalRandom.current().nextInt(0, Math.min(20, account.getBalance())),
+                                ThreadLocalRandom.current().nextInt(Math.min(1, account.getBalance()), Math.min(20, account.getBalance())),
                                 get(),
                                 partners.get(ThreadLocalRandom.current().nextInt(0, partners.size())));
                             sendMoney(t);
