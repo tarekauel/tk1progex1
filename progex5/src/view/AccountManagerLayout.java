@@ -35,7 +35,7 @@ public class AccountManagerLayout extends JFrame {
     this.setVisible(true);
   }
 
-  public void addAccountView(AccountView av) {
+  public void addPanel(JPanel av) {
     right.add(av);
   }
 

@@ -38,7 +38,7 @@ public class AccountHolder implements ActionListener {
     public AccountHolder(AccountManager am, String name, int startBalance) {
         this.name = name;
         AccountView av = new AccountView(name);
-        am.addAccount(av);
+        am.addPanel(av);
         av.setSnapshotButtonListener(this);
         BalanceUpdater bu = new BalanceUpdater(av);
         try {
@@ -46,6 +46,7 @@ public class AccountHolder implements ActionListener {
             me = new Partner(am.getPort(name));
             channelIn = new DatagramSocket(me.getPort());
             this.am = am;
+            am.getCirculationBalanceUpdater().addAccount(account);
             (new Thread(new MessageReceiver())).start();
             transferCreator = new TransferCreator();
             new Thread(transferCreator).start();
