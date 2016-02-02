@@ -2,10 +2,13 @@ package controller;
 
 import view.AccountManagerLayout;
 import view.AccountView;
+import view.CirculationBalanceView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class AccountManager implements ActionListener {
 
@@ -16,20 +19,23 @@ public class AccountManager implements ActionListener {
   private boolean running = false;
 
   private AccountManagerLayout aml;
+  private CirculationBalanceUpdater cbu;
+
   private int port = 2100;
 
   private HashMap<Integer, String> names = new HashMap<>();
-
   private AccountHolder ah1;
   private AccountHolder ah2;
   private AccountHolder ah3;
 
   public AccountManager() {
     aml = new AccountManagerLayout(this);
+    cbu = new CirculationBalanceUpdater();
+    addPanel(cbu.getView());
 
-    ah1 = new AccountHolder(this, "Account 1", 200);// ThreadLocalRandom.current().nextInt(100, 200));
-    ah2 = new AccountHolder(this, "Account 2", 200);// ThreadLocalRandom.current().nextInt(100, 200));
-    ah3 = new AccountHolder(this, "Account 3", 200);// ThreadLocalRandom.current().nextInt(100, 200));
+    ah1 = new AccountHolder(this, "Account 1", ThreadLocalRandom.current().nextInt(100, 200));
+    ah2 = new AccountHolder(this, "Account 2", ThreadLocalRandom.current().nextInt(100, 200));
+    ah3 = new AccountHolder(this, "Account 3", ThreadLocalRandom.current().nextInt(100, 200));
 
     // Make them know each other
     ah1.addPartner(ah2.get());
@@ -38,7 +44,6 @@ public class AccountManager implements ActionListener {
     ah2.addPartner(ah3.get());
     ah3.addPartner(ah1.get());
     ah3.addPartner(ah2.get());
-
   }
 
   @Override
@@ -56,8 +61,8 @@ public class AccountManager implements ActionListener {
     }
   }
 
-  public void addAccount(AccountView av) {
-    aml.addAccountView(av);
+  public void addPanel(JPanel p) {
+    aml.addPanel(p);
   }
 
   public void publishMessage(String m) {
@@ -80,4 +85,7 @@ public class AccountManager implements ActionListener {
     return names.get(port);
   }
 
+  public CirculationBalanceUpdater getCirculationBalanceUpdater() {
+    return cbu;
+  }
 }

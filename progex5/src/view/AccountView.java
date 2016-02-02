@@ -15,7 +15,7 @@ public class AccountView extends JPanel {
     JPanel panel = new JPanel();
     this.add(panel);
     panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-    panel.add(new JLabel(title + "\t\t\t\t\t"));
+    panel.add(new JLabel(title + ": "));
     panel.add(balanceLabel);
     snapshotButton = new JButton("Snapshot");
 

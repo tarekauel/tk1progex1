@@ -38,11 +38,13 @@ public class AccountHolder implements ActionListener {
     public AccountHolder(AccountManager am, String name, int startBalance) {
         this.name = name;
         AccountView av = new AccountView(name);
-        am.addAccount(av);
+        am.addPanel(av);
         av.setSnapshotButtonListener(this);
-        BalanceUpdater bu = new BalanceUpdater(av);
+        account = new Account(startBalance);
+        new BalanceUpdater(av, account);
+        am.getCirculationBalanceUpdater().addAccount(account);
+
         try {
-            account = new Account(startBalance, bu);
             me = new Partner(am.getPort(name));
             channelIn = new DatagramSocket(me.getPort());
             this.am = am;
@@ -197,7 +199,7 @@ public class AccountHolder implements ActionListener {
                     Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 1750));
                     if (status) {
                             Transfer t = new Transfer(
-                                ThreadLocalRandom.current().nextInt(0, Math.min(20, account.getBalance())),
+                                ThreadLocalRandom.current().nextInt(Math.min(1, account.getBalance()), Math.min(20, account.getBalance())),
                                 get(),
                                 partners.get(ThreadLocalRandom.current().nextInt(0, partners.size())));
                             sendMoney(t);

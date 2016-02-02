@@ -3,26 +3,26 @@ package model;
 import controller.BalanceUpdater;
 
 import java.io.Serializable;
+import java.util.Observable;
 
-public class Account implements Serializable {
+public class Account extends Observable implements Serializable {
 
   private int balance;
-  private BalanceUpdater bu;
 
-  public Account(int balance, BalanceUpdater bu) {
+  public Account(int balance) {
     this.balance = balance;
-    this.bu = bu;
-    bu.setBalance(balance);
   }
 
   public synchronized void transfer(int amount) {
     balance -= amount;
-    bu.setBalance(balance);
+    this.setChanged();
+    this.notifyObservers();
   }
 
   public synchronized void receive(int amount) {
     balance += amount;
-    bu.setBalance(balance);
+    this.setChanged();
+    this.notifyObservers();
   }
 
   public synchronized int getBalance() {
