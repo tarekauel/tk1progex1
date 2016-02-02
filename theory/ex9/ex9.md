@@ -20,16 +20,16 @@ P<sub>1</sub> receives the marker message and saves its local state immediately.
 <table>
     <tr>
         <td>S_P<sub>1</sub>: &lt;&gt;</td>
-        <td>C(P<sub>2</sub>, P<sub>1</sub>): &lt;m1, m2&gt;</td>
+        <td>C(P<sub>2</sub>, P<sub>1</sub>): &lt;rec_m1, rec_m2&gt;</td>
         <td>C(P<sub>3</sub>, P<sub>1</sub>): &lt;&gt;</td>
     </tr>
     <tr>
-        <td>S_P<sub>2</sub>: &lt;m<sub>1</sub>, m<sub>2</sub>&gt;</td>
+        <td>S_P<sub>2</sub>: &lt;send_m<sub>1</sub>, send_m<sub>2</sub>&gt;</td>
         <td>C(P<sub>1</sub>, P<sub>2</sub>): &lt;&gt;</td>
-        <td>C(P<sub>3</sub>, P<sub>2</sub>): &lt;m<sub>3</sub>, m<sub>4</sub>&gt;</td>
+        <td>C(P<sub>3</sub>, P<sub>2</sub>): &lt;rec_m<sub>3</sub>, rec_m<sub>4</sub>&gt;</td>
     </tr>
     <tr>
-        <td>S_P<sub>3</sub>: &lt;m<sub>3</sub>, m<sub>4</sub>&gt;</td>
+        <td>S_P<sub>3</sub>: &lt;send_m<sub>3</sub>, send_m<sub>4</sub>&gt;</td>
         <td>C(P<sub>1</sub>, P<sub>3</sub>): &lt;&gt;</td>
         <td>C(P<sub>2</sub>, P<sub>3</sub>): &lt;&gt;</td>
     </tr>
@@ -42,16 +42,16 @@ P<sub>1</sub> receives the marker message and saves its local state immediately.
 <table>
     <tr>
         <td>S_P<sub>1</sub>: &lt;&gt;</td>
-        <td>C(P<sub>2</sub>, P<sub>1</sub>): &lt;m<sub>1</sub>, m<sub>2</sub>&gt;</td>
+        <td>C(P<sub>2</sub>, P<sub>1</sub>): &lt;rec_m<sub>1</sub>, rec_m<sub>2</sub>&gt;</td>
         <td>C(P<sub>3</sub>, P<sub>1</sub>): &lt;&gt;</td>
     </tr>
     <tr>
-        <td>S_P<sub>2</sub>: &lt;m<sub>1</sub>, m<sub>2</sub>, m<sub>3</sub>&gt;</td>
+        <td>S_P<sub>2</sub>: &lt;send_m<sub>1</sub>, send_m<sub>2</sub>, rec_m<sub>3</sub>&gt;</td>
         <td>C(P<sub>1</sub>, P<sub>2</sub>): &lt;&gt;</td>
-        <td>C(P<sub>3</sub>, P<sub>2</sub>): &lt;m<sub>4</sub>&gt;</td>
+        <td>C(P<sub>3</sub>, P<sub>2</sub>): &lt;rec_m<sub>4</sub>&gt;</td>
     </tr>
     <tr>
-        <td>S_P<sub>3</sub>: &lt;m<sub>3</sub>, m<sub>4</sub>&gt;</td>
+        <td>S_P<sub>3</sub>: &lt;send_m<sub>3</sub>, send_m<sub>4</sub>&gt;</td>
         <td>C(P<sub>1</sub>, P<sub>3</sub>): &lt;&gt;</td>
         <td>C(P<sub>2</sub>, P<sub>3</sub>): &lt;&gt;</td>
     </tr>
