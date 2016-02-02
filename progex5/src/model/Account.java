@@ -1,6 +1,5 @@
 package model;
 
-import controller.BalanceUpdater;
 
 import java.io.Serializable;
 import java.util.Observable;

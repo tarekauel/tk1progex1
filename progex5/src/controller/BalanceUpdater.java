@@ -1,18 +1,17 @@
 package controller;
 
 import model.Account;
-import view.AccountView;
+import model.packets.BalanceUpdate;
 
 import java.util.Observable;
 import java.util.Observer;
 
 public class BalanceUpdater implements Observer {
 
-  private AccountView accountView;
+  private int port;
 
-  public BalanceUpdater(AccountView accountView, Account observedAccount) {
-    this.accountView = accountView;
-
+  public BalanceUpdater(int port, Account observedAccount) {
+    this.port = port;
     observedAccount.addObserver(this);
     update(observedAccount, null);
   }
@@ -20,6 +19,6 @@ public class BalanceUpdater implements Observer {
   @Override
   public void update(Observable o, Object arg) {
     Account account = (Account) o;
-    accountView.setBalance(account.getBalance());
+    AccountHolder.sendToGui(new BalanceUpdate(port, account.getBalance()));
   }
 }
