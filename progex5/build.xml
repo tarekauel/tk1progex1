@@ -1,0 +1,63 @@
+<project default="all">
+
+    <!-- This is only an idea for your script, you can build your own! -->
+    <description>
+        TK1 - Programmieraufgabe 5
+    </description>
+
+    <target name="all" depends="run"/>
+
+    <target name="clean">
+        <delete dir="out"/>
+        <delete file="AccountManager.jar"/>
+        <delete file="AccountHolder.jar"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="out"/>
+        <javac srcdir="src" destdir="out" includeantruntime="false">
+            <classpath>
+                <pathelement path="${classpath}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar destfile="AccountManager.jar" basedir="out">
+            <manifest>
+                <attribute name="Main-Class" value="controller.AccountManager"/>
+            </manifest>
+        </jar>
+        <jar destfile="AccountHolder.jar" basedir="out">
+            <manifest>
+                <attribute name="Main-Class" value="controller.AccountHolder"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <parallel>
+            <java jar="AccountManager.jar" fork="true"/>
+            <sequential>
+                <sleep milliseconds="3000" />
+                <parallel>
+                    <java jar="AccountHolder.jar" fork="true">
+                        <arg line="1" />
+                    </java>
+                    <sequential>
+                        <sleep milliseconds="500" />
+                        <java jar="AccountHolder.jar" fork="true">
+                            <arg line="2" />
+                        </java>
+                    </sequential>
+                    <sequential>
+                        <sleep milliseconds="1000" />
+                        <java jar="AccountHolder.jar" fork="true">
+                            <arg line="3" />
+                        </java>
+                    </sequential>
+                </parallel>
+            </sequential>
+        </parallel>
+    </target>
+</project>
