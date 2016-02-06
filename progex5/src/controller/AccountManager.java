@@ -10,8 +10,7 @@ import view.CirculationBalanceView;
 
 import javax.sound.sampled.Port;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -43,6 +42,16 @@ public class AccountManager implements ActionListener {
     cbu = new CirculationBalanceUpdater();
     addPanel(cbu.getView());
 
+    aml.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        for (int p : names.keySet()) {
+          sendToClient(p, new Terminate());
+        }
+
+        super.windowClosing(e);
+      }
+    });
   }
 
   @Override
