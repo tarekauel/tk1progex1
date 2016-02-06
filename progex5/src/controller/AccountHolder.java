@@ -6,14 +6,12 @@ import model.StateRecord;
 import model.packets.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class AccountHolder implements ActionListener {
+public class AccountHolder {
 
     private DatagramSocket channelIn;
     private Map<Partner, Queue<Message>> channelsOut =
@@ -89,6 +87,9 @@ public class AccountHolder implements ActionListener {
             Snapshot s = (Snapshot) m;
             if (!finishedRecords.containsKey(s.getSnapshotId())) {
                 if (s.getReceiver() == null) {
+                    sendMessageToGui(String.format("%s initiates snapshot record and broadcasts it (Snapshot ID: %d) ",
+                            getNameFromGui(me.getPort()), s.getSnapshotId()));
+
                     // this account initialized the snapshot
                     // record own state and turn on recording (stateRecord object does exist)
                     stateRecord.put(s.getSnapshotId(), new StateRecord(account.getBalance()));
@@ -181,6 +182,8 @@ public class AccountHolder implements ActionListener {
                 message += "-------------------\n";
                 sendMessageToGui(message);
             }
+        } else if (m instanceof Terminate) {
+            System.exit(0);
         }
     }
 
@@ -215,11 +218,6 @@ public class AccountHolder implements ActionListener {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        receiveMessage(new Snapshot(this.get(), null, null));
     }
 
     private class TransferCreator implements Runnable {
